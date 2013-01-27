@@ -1,0 +1,18 @@
+p There are {{ publications.length}} publications
+table
+  thead
+    tr
+      th Member Name
+      th Induction Year
+      th Title
+      th Publication Year
+      th Type
+      th Comments
+  tr(ng-repeat='publication in publications')
+    td
+      a(href='editMember/{{publication.member.id}}') {{publication.member.fullName}}
+    td {{publication.member.inductionYear}}
+    td {{publication.title}}
+    td {{publication.year}}
+    td {{publication.publicationType}}
+    td {{publication.comment}}

@@ -1,0 +1,7 @@
+div(ng-controller='ImportMemberCtrl')
+  h2 Import Members
+  form(action="importMembers", method="post", enctype="multipart/form-data")
+    input(type="file", name="importMembersCsv")
+    input(type="submit", name="importMembersSubmit")
+
+//  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
