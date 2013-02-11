@@ -2,50 +2,42 @@
  * Serve JSON to our AngularJS client
  */
 
-var csv = require('csv');
-var memberProvider = require('../lib/providers/memberProvider.js').memberProvider;
+var express = require('express'),
+    db = require('../config').db,
+   csv = require('csv'),
+    fs = require('fs');
 
 exports.importMembers = function (req, res) {
+  if (req.
   var members = [];
-  var newMembers = [];
+  //var newMembers = [];
   csv()
     .from.stream(fs.createReadStream(req.files.importMembersCsv.path))
     .transform(function (row) {
       row.unshift(row.pop());
-      return row;
-    })
-    .on('record', function(row, index) {
-      var member = {
-        'alsMemberId': row[0],
-        'pubVerificationStatus': row[1],
-        'fullName': row[3] + " " + row[2],
-        'firstName': row[3],
-        'lastName': row[2],
-        'inductionYear': row[4],
-        'emailAddresses': row[5].replace(/" /g, "").split(","),
+      members.push({
+        'alsMemberId': row[1],
+        'pubVerificationStatus': row[2],
+        'fullName': row[4] + " " + row[3],
+        'firstName': row[4],
+        'lastName': row[3],
+        'inductionYear': row[5],
+        'emailAddresses': row[6].replace(/" /g, "").split(","),
         'contactDetails' : [{
-          'phoneNumber': row[6],
-          'streetAddress1': row[7],
-          'streetAddress2': row[8],
-          'city': row[9],
-          'state': row[10],
-          'zip': row[11],
-          'country': row[12],
+          'phoneNumber': row[7],
+          'streetAddress1': row[8],
+          'streetAddress2': row[9],
+          'city': row[10],
+          'state': row[11],
+          'zip': row[12],
+          'country': row[13],
         }],
-        'notes': row[13]
-      };
-      members.push(member);
-      for(var memberIterator = 0; memberIterator <= members.length; memberIterator++) {
-        var thisMember = members[memberIterator];
-        var oldMember = memberProvider.findByNameAndALSId(member.firstName, member.lastName, member.alsMemberId);
-        if (oldMember) {
-          members.splice(memberIterator, 1)
-          memberIterator--;
-          continue;
-        }
-        newMembers.push(thisMember);
-      }
-      memberProvider.save(newMembers, function(errors, members) { return members.length() });
+        'notes': row[14]
+      });
+    })
+    .on('end', function() {
+      db.collection('members').insert(members, function(errors, savedMembers) { return savedMembers.length });
+      return res.json(members);
     });
 };
 

@@ -5,7 +5,6 @@
 var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api');
-
 var app = module.exports = express();
 
 // Configuration
@@ -35,7 +34,8 @@ app.get('/partials/:name', routes.partials);
 // JSON API
 
 app.get('/api/publications', api.publications);
-app.post('/api/importMembers', api.importMembers);
+app.get('/api/members', api.members);
+app.post('/api/members', api.importMembers);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
