@@ -29,7 +29,8 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.form = {};
   $http.get('/api/editMember/' + $routeParams.id).
     success(function(data) {
-      $scope.member = data;
+      $scope.member = data.member;
+      $scope.pubMedia = data.pubMedia;
     });
   $scope.editMember = function() {
     $http.put('/api/editMember/' + $routeParams.id, $scope.member).

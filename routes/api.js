@@ -47,8 +47,16 @@ exports.members = function (req, res) {
 };
 
 exports.editMember = function (req, res) {
+  var result = {
+    member: null,
+    pubMedia: null
+  };
   db.collection('members').findOne({_id: db.toId(req.params["id"])}, function(err, member) {
-    res.json(member);
+    result.member = member;
+    db.collection('publicationMedia').find().toArray(function(err, pubMedia) {
+      result.pubMedia = pubMedia
+      res.json(result)
+    });
   });
 };
 
@@ -56,6 +64,7 @@ exports.saveMember = function (req, res) {
   var id = db.toId(req.params.id);
 
   delete req.body._id;
+  req.body.fullName = req.body.firstName + " " + req.body.lastName;
   db.collection('members').update({_id: id}, req.body, {w: 1}, function(err, collection) {
     res.json(true);
   });
