@@ -36,6 +36,8 @@ app.get('/partials/:name', routes.partials);
 app.get('/api/publications', api.publications);
 app.get('/api/members', api.members);
 app.post('/api/importMembers', api.importMembers);
+app.get('/api/editMember/:id', api.editMember);
+app.put('/api/editMember/:id', api.saveMember);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

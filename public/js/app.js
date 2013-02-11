@@ -16,6 +16,10 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
         templateUrl: 'partials/viewMembers',
         controller: MembersCtrl
       }).
+      when('/editMember/:id', {
+        templateUrl: 'partials/editMember',
+        controller: EditMemberCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });

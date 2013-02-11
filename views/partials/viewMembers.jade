@@ -8,5 +8,5 @@ div(ng-controller='MembersCtrl')
         th Induction Year
     tr(ng-repeat='member in members')
       td
-        a(href='editMember/{{member.id}}') {{member.fullName}}
+        a(href='editMember/{{member._id}}') {{member.fullName}}
       td {{member.inductionYear}}

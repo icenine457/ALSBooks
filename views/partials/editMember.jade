@@ -1,0 +1,14 @@
+div(ng-controller='EditMemberCtrl')
+  h2 Editing {{member.fullName}}
+  label(for='firstName') First Name
+  input(type="text", ng-model='member.firstName', name="firstName")
+  br
+  label(for='lastName') Last Name
+  input(type="text", ng-model='member.lastName', name="lastName")
+  br
+  label(for='inductionYear') Induction Year
+  input(type="text", ng-model='member.inductionYear', name="inductionYear")
+  br
+  button(name="editMemberSubmit", ng-click="editMember()") Submit
+
+//  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

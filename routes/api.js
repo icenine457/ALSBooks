@@ -46,5 +46,20 @@ exports.members = function (req, res) {
   });
 };
 
+exports.editMember = function (req, res) {
+  db.collection('members').findOne({_id: db.toId(req.params["id"])}, function(err, member) {
+    res.json(member);
+  });
+};
+
+exports.saveMember = function (req, res) {
+  var id = db.toId(req.params.id);
+
+  delete req.body._id;
+  db.collection('members').update({_id: id}, req.body, {w: 1}, function(err, collection) {
+    res.json(true);
+  });
+};
+
 exports.publications = function (req, res) {
 };

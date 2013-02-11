@@ -10,7 +10,7 @@ table
       th Comments
   tr(ng-repeat='publication in publications')
     td
-      a(href='editMember/{{publication.member.id}}') {{publication.member.fullName}}
+      a(href='editMember/{{publication.member._id}}') {{publication.member.fullName}}
     td {{publication.member.inductionYear}}
     td {{publication.title}}
     td {{publication.year}}
