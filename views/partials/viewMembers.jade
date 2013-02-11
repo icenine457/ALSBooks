@@ -1,0 +1,12 @@
+div(ng-controller='MembersCtrl')
+  h2 Members
+  p There are {{ members.length }} members
+  table
+    thead
+      tr
+        th Member Name
+        th Induction Year
+    tr(ng-repeat='member in members')
+      td
+        a(href='editMember/{{member.id}}') {{member.fullName}}
+      td {{member.inductionYear}}

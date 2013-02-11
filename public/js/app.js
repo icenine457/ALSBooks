@@ -12,6 +12,10 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
         templateUrl: 'partials/importMembers',
         controller: ImportMemberCtrl
       }).
+      when('/viewMembers', {
+        templateUrl: 'partials/viewMembers',
+        controller: MembersCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });

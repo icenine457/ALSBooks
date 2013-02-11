@@ -16,3 +16,11 @@ function ImportMemberCtrl($scope, $http, $location) {
       });
   };
 };
+
+function MembersCtrl($scope, $http, $location) {
+  $scope.form = {};
+  $http.get('/api/members', $scope.form).
+    success(function(data) {
+      $scope.members = data;
+    });
+};

@@ -8,7 +8,6 @@ var express = require('express'),
     fs = require('fs');
 
 exports.importMembers = function (req, res) {
-  if (req.
   var members = [];
   //var newMembers = [];
   csv()
@@ -39,6 +38,12 @@ exports.importMembers = function (req, res) {
       db.collection('members').insert(members, function(errors, savedMembers) { return savedMembers.length });
       return res.json(members);
     });
+};
+
+exports.members = function (req, res) {
+  db.collection('members').find().toArray(function(err, members) {
+    res.json(members);
+  });
 };
 
 exports.publications = function (req, res) {
