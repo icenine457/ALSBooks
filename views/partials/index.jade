@@ -1,19 +1,21 @@
 div(ng-controller='PublicationsCtrl')
+  h2 Publications
   p {{ publicationsHeader }}
   table(class="table table-hover")
     thead
       tr
+        th Title
         th Member Name
         th Induction Year
-        th Title
         th Year Published
         th Medium
         th Notes
     tr(ng-repeat='publication in publications')
       td
+        a(href='editPublication/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+      td
         a(href='editMember/{{publication.member._id}}') {{publication.member.fullName}}
       td {{publication.member.inductionYear}}
-      td {{publication.pubTitle}}
       td {{publication.pubYear}}
       td {{publication.pubMedium.mediaLabel}}
       td {{publication.pubNotes}}

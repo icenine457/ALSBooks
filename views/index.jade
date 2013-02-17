@@ -1,22 +1,26 @@
 extends layout
 
 block body
-  div
-    h2 ALS Books Version 1
-    ul
-      li
-        a(href='/') Home
-      li
-        a(href='/importMembers') Import New Members from CSV
-      li
-        a(href='/viewMembers') View members
-    div(ng-view)
+  div(class="container-fluid")
+    div(class="row-fluid")
+      div(class="span2")
+        h2 ALS Books
+        ul(class="nav nav-pills nav-stacked")
+          li
+            a(href='/') Publications
+          li
+            a(href='/viewMembers') Members
+            ul(class="nav nav-pills nav-stacked")
+              li
+                a(href='/importMembers') Import New Members from CSV
+      div(class="span10")
+        div(ng-view)
 
   script(src='js/lib/angular/angular.js')
+  script(src='js/lib/bootstrap/bootstrap.js')
   script(src='js/app.js')
   script(src='js/services.js')
   script(src='js/controllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
-  script(src='js/lib/bootstrap/bootstrap.min.js')
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 

@@ -38,7 +38,8 @@ app.get('/api/members', api.members);
 app.post('/api/importMembers', api.importMembers);
 app.get('/api/editMember/:id', api.editMember);
 app.put('/api/editMember/:id', api.saveMember);
-app.put('/api/editPublication', api.savePublication);
+app.get('/api/editPublication/:memberId/:pubId', api.getPublication);
+app.put('/api/editPublication/:memberId/:pubId', api.savePublication);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

@@ -9,7 +9,6 @@ var express = require('express'),
 
 exports.importMembers = function (req, res) {
   var members = [];
-  //var newMembers = [];
   csv()
     .from.stream(fs.createReadStream(req.files.importMembersCsv.path))
     .transform(function (row) {
@@ -52,14 +51,10 @@ exports.members = function (req, res) {
 exports.editMember = function (req, res) {
   var result = {
     member: null,
-    pubMedia: null
   };
   db.collection('members').findOne({_id: db.toId(req.params["id"])}, function(err, member) {
     result.member = member;
-    db.collection('publicationMedia').find().toArray(function(err, pubMedia) {
-      result.pubMedia = pubMedia
-      res.json(result)
-    });
+    res.json(result);
   });
 };
 
@@ -85,14 +80,14 @@ exports.saveMember = function (req, res) {
 };
 
 exports.savePublication = function (req, res) {
-  var publication = {
-    pubMedium: req.body.publication.pubMedium,
-    pubTitle: req.body.publication.pubTitle,
-    pubYear: req.body.publication.pubYear,
-    pubNotes: req.body.publication.pubNotes,
-    _id: req.body.publication._id
-  };
-  db.collection('members').findOne({_id: db.toId(req.body.member._id)}, function(err, member) {
+  db.collection('members').findOne({_id: db.toId(req.params['memberId'])}, function(err, member) {
+    var publication = {
+      pubMedium: req.body.pubMedium,
+      pubTitle: req.body.pubTitle,
+      pubYear: req.body.pubYear,
+      pubNotes: req.body.pubNotes,
+      _id: req.body._id
+    };
     if (err != null) {
         return res.send(500, {error: "Failed to locate member:  " + err});
     }
@@ -101,7 +96,6 @@ exports.savePublication = function (req, res) {
       publication.createdOn = new Date();
     }
     else {
-      publication._id = db.toId(publication._id);
       for (var pppp = 0; pppp < member.publications.length; pppp++) {
         var thisPub = member.publications[pppp];
         if (thisPub._id != publication._id) {
@@ -109,6 +103,7 @@ exports.savePublication = function (req, res) {
         }
         member.publications.splice(pppp, 1);
       }
+      publication._id = db.toId(publication._id);
     };
 
     if (member.publications === undefined) {
@@ -132,6 +127,32 @@ exports.savePublication = function (req, res) {
     });
 
   })
+};
+
+exports.getPublication = function (req, res) {
+  var result = {
+    publication: null,
+  };
+  var newPublication = {
+    pubTitle: '',
+    pubYear: '',
+    pubMedium: '',
+    pubNotes: '',
+    _id: 0,
+  };
+  db.collection('publications').findOne({_id: db.toId(req.params["pubId"])}, function(err, publication) {
+    if (req.params["pubId"] == 0) {
+      result.publication = newPublication;
+    }
+    else {
+      result.publication = publication;
+    }
+    db.collection('publicationMedia').find().toArray(function(err, pubMedia) {
+      result.pubMedia = pubMedia;
+      console.log("SENDING RESULT");
+      res.json(result)
+    });
+  });
 };
 
 exports.publications = function (req, res) {

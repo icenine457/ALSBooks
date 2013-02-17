@@ -1,5 +1,5 @@
 div(ng-controller='EditMemberCtrl')
-  div(ng-visible="!isEditingPub")
+  div()
     h2 Editing {{member.fullName}}
     label(for='firstName') First Name
     input(type="text", ng-model='member.firstName', name="firstName")
@@ -10,50 +10,30 @@ div(ng-controller='EditMemberCtrl')
     label(for='inductionYear') Induction Year
     input(type="text", ng-model='member.inductionYear', name="inductionYear")
     br
-    button(name="SubmitMember", ng-click="editMember()", ng-visible="!isEditingPub") Save Member
+    button(name="SubmitMember", ng-click="editMember()") Save Member
     br
 
-  div(ng-repeat='publication in member.publications', ng-visible="isEditingPub")
-    div(ng-visible="publication.isEditing")
-      h4(ng-visible="publication._id == 0") New Publication
-      h4(ng-visible="publication._id != 0") Editing {{ publication.pubTitle }}
-      label(for='pubMedia') Publication Medium
-      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p as p.mediaLabel for p in pubMedia")
-        option(value="") Choose a media type
-      br
-      label(for='pubTitle') Publication Title
-      input(type="text", ng-model='publication.pubTitle', name="pubTitle")
-      br
-      label(for='pubYear') Publication Year
-      input(type="text", ng-model='publication.pubYear', name="pubYear")
-      br
-      label(for='pubNotes') Notes
-      textarea(ng-model='publication.pubNotes', name="pubNotes")
-      br
-      button(name="SubmitPub", ng-click="savePublication(publication)") Save Publication
-      button(name="CancelPub", ng-click="cancelPublication(publication)") Cancel
-
   br
-  button(name="Add Publication", ng-click="addPublication()", ng-visible="!isEditingPub") Add Publication
-  div(ng-visible="member.publications.length > 0 && !isEditingPub")
+  button(name="Add Publication", ng-click="addPublication()") Add Publication
+  div(ng-visible="member.publications.length > 0)
     div(style='overflow: hidden')
       h4 {{member.fullName}}'s Publications
     table(class="table table-hover")
       thead
         tr
+          th ID
           th Title
           th Year
           th Medium
           th Notes
-          th
       tbody
         tr(ng-repeat='publication in member.publications')
-          td {{publication.pubTitle}}
+          td {{publication._id}}
+          td
+            a(href='editPublication/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
           td {{publication.pubYear}}
           td {{publication.pubMedium.mediaLabel}}
           td {{publication.pubNotes}}
-          td
-            button(name="EditPub", ng-click="editPub(publication)") Edit
 
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -1,0 +1,23 @@
+div(ng-controller='EditPublicationCtrl')
+  div(class="row-fluid")
+    div(class="span12")
+      h4(ng-visible="publication._id == 0") New Publication
+      h4(ng-visible="publication._id != 0") Editing {{ publication.pubTitle }}
+      label(for='pubMedia') Publication Medium
+      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p as p.mediaLabel for p in pubMedia")
+        option(value="") Choose a media type
+      br
+      label(for='pubTitle') Publication Title
+      input(type="text", ng-model='publication.pubTitle', name="pubTitle")
+      br
+      label(for='pubYear') Publication Year
+      input(type="text", ng-model='publication.pubYear', name="pubYear")
+      br
+      label(for='pubNotes') Notes
+      textarea(ng-model='publication.pubNotes', name="pubNotes")
+        br
+      div(class="row-fluid")
+        div(class="span1")
+          button(name="SubmitPub", class="btn btn-primary btn-small", ng-click="savePublication(publication)") Save
+        div(class="span1 offset2")
+          button(name="CancelPub", class="btn btn-small", ng-click="cancelPublication(publication)") Cancel
