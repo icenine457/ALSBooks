@@ -11,19 +11,44 @@ div(ng-controller='EditMemberCtrl')
   label(for='inductionYear') Induction Year
   input(type="text", ng-model='member.inductionYear', name="inductionYear")
   br
+  button(name="SubmitMember", ng-click="editMember()") Save Member
 
   div(ng-repeat='publication in member.publications')
-    label(for='publicationType') Publication Type
-    select(name='pubMedia', ng-options="pubMedium in pubMedia")
-    label(for='pubTitle') Publication Title
-    input(type="text", ng-model='publication.pubTitle', name="pubTitle")
-    label(for='pubYear') Publication Year
-    input(type="text", ng-model='publication.pubYear', name="pubYear")
-    label(for='pubNotes') Notes
-    textbox(ng-model='publication.pubYear', name="pubNotes")
-    button(name="Submit", ng-click="editPublication(publication)") Submit
-    button(name="Remove", ng-click="removePublication(publication)") Remove
-    button(name="Edit", ng-click="editPublication(publication)") Edit
-  button(name="editMemberSubmit", ng-click="editMember()") Submit
+    div(ng-visible="publication.isEditing")
+      h3(ng-visible="editingNewPub") New Publication
+      label(for='pubMedia') Publication Type
+      select(name='pubMedia', ng-model="publication.pubMedia", ng-options="pubMedium.mediaLabel for pubMedium in pubMedia")
+      br
+      label(for='pubTitle') Publication Title
+      input(type="text", ng-model='publication.pubTitle', name="pubTitle")
+      br
+      label(for='pubYear') Publication Year
+      input(type="text", ng-model='publication.pubYear', name="pubYear")
+      br
+      label(for='pubNotes') Notes
+      textarea(ng-model='publication.pubNotes', name="pubNotes")
+      br
+      button(name="SubmitPub", ng-click="savePublication(publication)") Save Publication
+      button(name="CancelPub", ng-click="cancelPublication(publication)") Cancel
+
+  div(ng-visible="!isEditing && member.publications.length > 0")
+    h3() Publications
+    table
+      thead
+        tr
+          th Title
+          th Year Published
+          th Medium
+          th Notes
+          th
+      tbody
+        tr(ng-repeat='publication in member.publications')
+          td {{publication.pubTitle}}
+          td {{publication.pubYear}}
+          td {{publication.pubMedia[0].mediaLabel}}
+          td {{publication.pubNotes}}
+          td
+            button(name="EditPub", ng-click="editPub(publication)") Edit
+
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

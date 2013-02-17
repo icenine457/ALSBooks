@@ -25,17 +25,67 @@ function MembersCtrl($scope, $http, $location) {
     });
 };
 
+function PublicationsCtrl($scope, $http, $location) {
+  $scope.form = {};
+  $http.get('/api/publications', $scope.form).
+    success(function(data) {
+      $scope.publications = data;
+    });
+};
+
 function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.form = {};
+  $scope.editingNewPub = false;
   $http.get('/api/editMember/' + $routeParams.id).
     success(function(data) {
       $scope.member = data.member;
       $scope.pubMedia = data.pubMedia;
+      $scope.isEditing = false;
     });
+
   $scope.editMember = function() {
     $http.put('/api/editMember/' + $routeParams.id, $scope.member).
       success(function(data) {
         $location.path('/viewMembers');
       });
   };
+
+  $scope.savePublication = function(publication) {
+    $routeParams.memberId = $scope.member._id;
+    $http.put('/api/editPublication/' + $routeParams.memberId, publication).
+      success(function(data) {
+        $location.path('/viewMembers');
+      });
+  };
+
+  $scope.editPub = function(publication) {
+    $scope.isEditing = true;
+    publication.isEditing = true;
+  }
+  $scope.addPublication = function() {
+    if ($scope.editingNewPub) {
+      return;
+    }
+    $scope.editingNewPub = true;
+    var newPublication = {
+      pubMedia: [],
+      pubTitle: '',
+      pubYear: '',
+      pubNotes: '',
+      _id: 0,
+      isEditing: true
+    }
+    if ($scope.member.publications == null) {
+      $scope.member.publications = [];
+    }
+    $scope.member.publications.push(newPublication);
+  }
+  $scope.cancelPublication = function(publication) {
+    $http.get('/api/editMember/' + $routeParams.id).
+      success(function(data) {
+        $scope.member = data.member;
+        $scope.pubMedia = data.pubMedia;
+        $scope.isEditing = false;
+      });
+  }
 };

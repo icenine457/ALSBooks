@@ -9,3 +9,11 @@ angular.module('alsbooks.directives', []).
       elm.text(version);
     };
   }]);
+angular.module('alsbooks.filters', []).
+  directive('ngVisible', function() {
+    return function(scope, element, attr) {
+      scope.$watch(attr.ngVisible, function(visible) {
+      element.css('display', visible ? '' : 'none');
+    });
+  };
+});

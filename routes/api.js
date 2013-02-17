@@ -31,11 +31,13 @@ exports.importMembers = function (req, res) {
           'zip': row[12],
           'country': row[13],
         }],
-        'notes': row[14]
+        'notes': row[14],
+        'createdOn': new Date(),
+        'publications': []
       });
     })
     .on('end', function() {
-      db.collection('members').insert(members, function(errors, savedMembers) { return savedMembers.length });
+      db.collection('members').insert(members, function(errors, savedMembers) { return members.length });
       return res.json(members);
     });
 };
@@ -63,12 +65,66 @@ exports.editMember = function (req, res) {
 exports.saveMember = function (req, res) {
   var id = db.toId(req.params.id);
 
-  delete req.body._id;
-  req.body.fullName = req.body.firstName + " " + req.body.lastName;
-  db.collection('members').update({_id: id}, req.body, {w: 1}, function(err, collection) {
+  var member = req.body;
+  delete member._id;
+  member.fullName = req.body.firstName + " " + req.body.lastName;
+
+  db.collection('members').update({_id: id}, member, {w: 1}, function(err, collection) {
     res.json(true);
   });
 };
 
+exports.savePublication = function (req, res) {
+  var publication = {
+    pubMedia: req.body.pubMedia,
+    pubTitle: req.body.pubTitle,
+    pubYear: req.body.pubYear,
+    pubNotes: req.body.pubNotes,
+    _id: req.body._id
+  };
+  db.collection('members').findOne({_id: db.toId(req.params.memberId)}, function(err, member) {
+    if (err != null) {
+        return res.send(500, {error: "Failed to locate member:  " + err});
+    }
+    if (publication._id == 0) {
+      publication._id = db.ObjectID();
+      publication.createdOn = new Date();
+    }
+    else {
+      for (var pppp = 0; pppp < member.publications.length; pppp++) {
+        var thisPub = member.publications[pppp];
+        if (thisPub._id != publication._id) {
+          continue;
+        }
+        member.publications.splice(pppp, 1);
+      }
+    };
+
+    if (member.publications === undefined) {
+      member.publications = [];
+    }
+
+    member.publications.push(publication);
+
+    db.collection('members').update({_id: member._id}, member, {w: 0}, function(err, collection) {
+      if (err != null) {
+        return res.send(500, {error: "Error saving member: " + err});
+      }
+      publication.member = {
+        _id:  member._id,
+        fullName: member.fullName,
+        inductionYear: member.inductionYear
+      };
+      db.collection('publications').update({_id: publication._id}, publication, {upsert:true}, function(err, collection) {
+        res.send(200);
+      });
+    });
+
+  })
+};
+
 exports.publications = function (req, res) {
+  db.collection('publications').find().toArray(function(err, publications) {
+    res.json(publications);
+  });
 };
