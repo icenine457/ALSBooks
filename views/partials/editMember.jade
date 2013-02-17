@@ -1,23 +1,25 @@
 div(ng-controller='EditMemberCtrl')
-  h2 Editing {{member.fullName}}
-  button(name="Add Publication", ng-click="addPublication()") Add Publication
-  br
-  label(for='firstName') First Name
-  input(type="text", ng-model='member.firstName', name="firstName")
-  br
-  label(for='lastName') Last Name
-  input(type="text", ng-model='member.lastName', name="lastName")
-  br
-  label(for='inductionYear') Induction Year
-  input(type="text", ng-model='member.inductionYear', name="inductionYear")
-  br
-  button(name="SubmitMember", ng-click="editMember()") Save Member
+  div(ng-visible="!isEditingPub")
+    h2 Editing {{member.fullName}}
+    label(for='firstName') First Name
+    input(type="text", ng-model='member.firstName', name="firstName")
+    br
+    label(for='lastName') Last Name
+    input(type="text", ng-model='member.lastName', name="lastName")
+    br
+    label(for='inductionYear') Induction Year
+    input(type="text", ng-model='member.inductionYear', name="inductionYear")
+    br
+    button(name="SubmitMember", ng-click="editMember()", ng-visible="!isEditingPub") Save Member
+    br
 
-  div(ng-repeat='publication in member.publications')
+  div(ng-repeat='publication in member.publications', ng-visible="isEditingPub")
     div(ng-visible="publication.isEditing")
-      h3(ng-visible="editingNewPub") New Publication
-      label(for='pubMedia') Publication Type
-      select(name='pubMedia', ng-model="publication.pubMedia", ng-options="pubMedium.mediaLabel for pubMedium in pubMedia")
+      h4(ng-visible="publication._id == 0") New Publication
+      h4(ng-visible="publication._id != 0") Editing {{ publication.pubTitle }}
+      label(for='pubMedia') Publication Medium
+      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p as p.mediaLabel for p in pubMedia")
+        option(value="") Choose a media type
       br
       label(for='pubTitle') Publication Title
       input(type="text", ng-model='publication.pubTitle', name="pubTitle")
@@ -31,13 +33,16 @@ div(ng-controller='EditMemberCtrl')
       button(name="SubmitPub", ng-click="savePublication(publication)") Save Publication
       button(name="CancelPub", ng-click="cancelPublication(publication)") Cancel
 
-  div(ng-visible="!isEditing && member.publications.length > 0")
-    h3() Publications
-    table
+  br
+  button(name="Add Publication", ng-click="addPublication()", ng-visible="!isEditingPub") Add Publication
+  div(ng-visible="member.publications.length > 0 && !isEditingPub")
+    div(style='overflow: hidden')
+      h4 {{member.fullName}}'s Publications
+    table(class="table table-hover")
       thead
         tr
           th Title
-          th Year Published
+          th Year
           th Medium
           th Notes
           th
@@ -45,7 +50,7 @@ div(ng-controller='EditMemberCtrl')
         tr(ng-repeat='publication in member.publications')
           td {{publication.pubTitle}}
           td {{publication.pubYear}}
-          td {{publication.pubMedia[0].mediaLabel}}
+          td {{publication.pubMedium.mediaLabel}}
           td {{publication.pubNotes}}
           td
             button(name="EditPub", ng-click="editPub(publication)") Edit

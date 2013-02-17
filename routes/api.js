@@ -14,6 +14,7 @@ exports.importMembers = function (req, res) {
     .from.stream(fs.createReadStream(req.files.importMembersCsv.path))
     .transform(function (row) {
       row.unshift(row.pop());
+      emailAddresses = row[6];
       members.push({
         'alsMemberId': row[1],
         'pubVerificationStatus': row[2],
@@ -21,7 +22,7 @@ exports.importMembers = function (req, res) {
         'firstName': row[4],
         'lastName': row[3],
         'inductionYear': row[5],
-        'emailAddresses': row[6].replace(/" /g, "").split(","),
+        'emailAddresses': ( emailAddresses.length > 0 ? emailAddresses.replace(/" /g, "").split(",") : []),
         'contactDetails' : [{
           'phoneNumber': row[7],
           'streetAddress1': row[8],
@@ -76,13 +77,13 @@ exports.saveMember = function (req, res) {
 
 exports.savePublication = function (req, res) {
   var publication = {
-    pubMedia: req.body.pubMedia,
-    pubTitle: req.body.pubTitle,
-    pubYear: req.body.pubYear,
-    pubNotes: req.body.pubNotes,
-    _id: req.body._id
+    pubMedium: req.body.publication.pubMedium,
+    pubTitle: req.body.publication.pubTitle,
+    pubYear: req.body.publication.pubYear,
+    pubNotes: req.body.publication.pubNotes,
+    _id: req.body.publication._id
   };
-  db.collection('members').findOne({_id: db.toId(req.params.memberId)}, function(err, member) {
+  db.collection('members').findOne({_id: db.toId(req.body.member._id)}, function(err, member) {
     if (err != null) {
         return res.send(500, {error: "Failed to locate member:  " + err});
     }

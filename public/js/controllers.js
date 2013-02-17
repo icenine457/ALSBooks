@@ -52,23 +52,27 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
 
   $scope.savePublication = function(publication) {
     $routeParams.memberId = $scope.member._id;
-    $http.put('/api/editPublication/' + $routeParams.memberId, publication).
+    var response = {
+      member: $scope.member,
+      publication: publication
+    };
+    $http.put('/api/editPublication', response).
       success(function(data) {
-        $location.path('/viewMembers');
+        $scope.isEditingPub = false;
+        publication.isEditing = false;
       });
   };
 
   $scope.editPub = function(publication) {
-    $scope.isEditing = true;
+    $scope.isEditingPub = true;
     publication.isEditing = true;
   }
   $scope.addPublication = function() {
-    if ($scope.editingNewPub) {
+    if ($scope.isEditingPub) {
       return;
     }
-    $scope.editingNewPub = true;
+    $scope.isEditingPub = true;
     var newPublication = {
-      pubMedia: [],
       pubTitle: '',
       pubYear: '',
       pubNotes: '',
@@ -85,7 +89,7 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
       success(function(data) {
         $scope.member = data.member;
         $scope.pubMedia = data.pubMedia;
-        $scope.isEditing = false;
+        $scope.isEditingPub = false;
       });
   }
 };

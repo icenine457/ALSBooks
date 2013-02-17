@@ -1,12 +1,22 @@
 div(ng-controller='MembersCtrl')
   h2 Members
   p There are {{ members.length }} members
-  table
+  table(class="table table-hover")
     thead
       tr
         th Member Name
         th Induction Year
+        th E-mail
+        th Publications
     tr(ng-repeat='member in members')
       td
         a(href='editMember/{{member._id}}') {{member.fullName}}
       td {{member.inductionYear}}
+      td
+        span(ng-visible="member.emailAddresses.length == 0")
+          em (None)
+        span(ng-visible="member.emailAddresses.length > 0") {{member.emailAddresses[0]}}
+      td
+        span(ng-visible="member.publications.length == 0")
+          em (None)
+        span(ng-visible="member.publications.length > 0") {{member.publications.length}}
