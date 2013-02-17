@@ -1,6 +1,6 @@
 div(ng-controller='PublicationsCtrl')
-  p There are {{ publications.length }} publications
-  table(class="table-striped")
+  p {{ publicationsHeader }}
+  table(class="table table-hover")
     thead
       tr
         th Member Name
@@ -15,5 +15,5 @@ div(ng-controller='PublicationsCtrl')
       td {{publication.member.inductionYear}}
       td {{publication.pubTitle}}
       td {{publication.pubYear}}
-      td {{publication.pubMedia[0].mediaLabel}}
+      td {{publication.pubMedium.mediaLabel}}
       td {{publication.pubNotes}}

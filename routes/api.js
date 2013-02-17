@@ -71,7 +71,16 @@ exports.saveMember = function (req, res) {
   member.fullName = req.body.firstName + " " + req.body.lastName;
 
   db.collection('members').update({_id: id}, member, {w: 1}, function(err, collection) {
-    res.json(true);
+    db.collection('publications').update(
+        { 'member._id' : id },
+        { 'member.fullName': member.fullName, 'member.inductionYear': member.inductionYear},
+        { multi: true},
+        function(err, collection) {
+          if (err != null) {
+            res.json(err);
+          }
+        });
+    res.send(200);
   });
 };
 
@@ -92,6 +101,7 @@ exports.savePublication = function (req, res) {
       publication.createdOn = new Date();
     }
     else {
+      publication._id = db.toId(publication._id);
       for (var pppp = 0; pppp < member.publications.length; pppp++) {
         var thisPub = member.publications[pppp];
         if (thisPub._id != publication._id) {

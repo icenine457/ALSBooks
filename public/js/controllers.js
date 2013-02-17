@@ -30,6 +30,7 @@ function PublicationsCtrl($scope, $http, $location) {
   $http.get('/api/publications', $scope.form).
     success(function(data) {
       $scope.publications = data;
+      $scope.publicationsHeader = "There " + ( data.length == 1 ? "is " : "are ") + (data.length > 0 ? data.length : "no") + " publication" + (data.length != 1 ? "s." : ".");
     });
 };
 
@@ -47,19 +48,6 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
     $http.put('/api/editMember/' + $routeParams.id, $scope.member).
       success(function(data) {
         $location.path('/viewMembers');
-      });
-  };
-
-  $scope.savePublication = function(publication) {
-    $routeParams.memberId = $scope.member._id;
-    var response = {
-      member: $scope.member,
-      publication: publication
-    };
-    $http.put('/api/editPublication', response).
-      success(function(data) {
-        $scope.isEditingPub = false;
-        publication.isEditing = false;
       });
   };
 
