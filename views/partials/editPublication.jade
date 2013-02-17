@@ -4,7 +4,7 @@ div(ng-controller='EditPublicationCtrl')
       h4(ng-visible="publication._id == 0") New Publication
       h4(ng-visible="publication._id != 0") Editing {{ publication.pubTitle }}
       label(for='pubMedia') Publication Medium
-      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p as p.mediaLabel for p in pubMedia")
+      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p.mediaLabel for p in pubMedia")
         option(value="") Choose a media type
       br
       label(for='pubTitle') Publication Title
