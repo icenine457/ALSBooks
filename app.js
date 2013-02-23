@@ -22,7 +22,7 @@ fs.readdirSync(modelsPath).forEach(function (modelFile) {
 
 require('./config/passport')(passport, config)
 
-var app = module.exports = express();
+var app = express();
 require('./config/express')(app, config, passport)
 require('./config/routes')(app, passport, auth)
 // }}}
@@ -34,9 +34,9 @@ require('./config/routes')(app, passport, auth)
 
 // Server initialization {{{
 
-app.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, env);
-});
+var port = process.env.PORT || 3000
+app.listen(port)
+console.log('Express app started on port '+port)
 
 // }}}
 

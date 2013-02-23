@@ -13,7 +13,7 @@ module.exports = function(app) {
   app.put('/api/editMember/:memberId', members.save);
 
   var publications = require('../lib/controllers/publications');
-  app.get('/api/publication/:memberId/new', publications.new);
+  app.get('/api/publication/:memberId/', publications.new);
   app.get('/api/publication/:memberId/:pubId', publications.get);
   app.put('/api/publication/:memberId/:pubId', publications.save);
   app.get('/api/publications', publications.list);
