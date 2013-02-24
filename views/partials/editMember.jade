@@ -1,6 +1,11 @@
 div(ng-controller='EditMemberCtrl')
-  div()
-    h2 Editing {{member.fullName}}
+  ul.nav.nav-tabs
+    li(ng-class='tabs.member')
+      a(href="javascript:", eat-click, ng-class='tabs.member', ng-click="toggleTab('member')") Member Profile
+    li(ng-class='tabs.publication')
+      a(href="javascript:", eat-click, ng-click="toggleTab('publication')") Publications
+  div(ng-visible="tabs.member == 'active'" )
+    h2 {{member.fullName}}'s Profile
     label(for='firstName') First Name
     input(type="text", ng-model='member.firstName', name="firstName")
     br
@@ -14,26 +19,29 @@ div(ng-controller='EditMemberCtrl')
     br
 
   br
-  button(name="Add Publication", ng-click="addPublication()") Add Publication
-  div(ng-visible="member.publications.length > 0)
-    div(style='overflow: hidden')
-      h4 {{member.fullName}}'s Publications
-    table(class="table table-hover")
-      thead
-        tr
-          th ID
-          th Title
-          th Year
-          th Medium
-          th Notes
-      tbody
-        tr(ng-repeat='publication in member.publications')
-          td {{publication._id}}
-          td
-            a(href='editPublication/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
-          td {{publication.pubYear}}
-          td {{publication.pubMedium.mediaLabel}}
-          td {{publication.pubNotes}}
+  div(ng-visible="tabs.publication == 'active'")
+    h2 {{member.fullName}}'s Publications
+    div(ng-visible="member.publications.length == 0") {{member.fullName}} has no publications.
+    button(name="Add Publication", ng-click="addPublication()") Add Publication
+    div(ng-visible="member.publications.length > 0")
+      div(style='overflow: hidden')
+        h4 {{member.fullName}}'s Publications
+      table(class="table table-hover")
+        thead
+          tr
+            th ID
+            th Title
+            th Year
+            th Medium
+            th Notes
+        tbody
+          tr(ng-repeat='publication in member.publications')
+            td {{publication._id}}
+            td
+              a(href='editPublication/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
+            td {{publication.pubYear}}
+            td {{publication.pubMedium.mediaLabel}}
+            td {{publication.pubNotes}}
 
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -17,3 +17,13 @@ alsbooks.directive('ngVisible', function() {
     });
   };
 });
+
+alsbooks.directive('eat-click', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element.click(function(event) {
+        event.preventDefault();
+      });
+    }
+  }
+})

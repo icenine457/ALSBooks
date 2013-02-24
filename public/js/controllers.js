@@ -33,7 +33,18 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
       $scope.member = data.member;
+      $scope.tabs = {
+        member: 'active',
+        publication: ''
+      }
     });
+
+  $scope.toggleTab = function(activeTab) {
+    for (var tab in $scope.tabs) {
+      $scope.tabs[tab] = '';
+    }
+    $scope.tabs[activeTab] = 'active';
+  };
 
   $scope.editMember = function() {
     $http.put('/api/members/save/' + $routeParams.id, $scope.member).
