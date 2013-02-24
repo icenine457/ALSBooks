@@ -5,7 +5,17 @@ function IndexCtrl($scope, $http) {
   $http.get('/api/publications').
     success(function(data, status, headers, config) {
       $scope.publications = data.publications;
+      $scope.tabs = {
+        member: '',
+        publication: 'active'
+      }
     });
+    $scope.toggleTab = function(activeTab) {
+      for (var tab in $scope.tabs) {
+        $scope.tabs[tab] = '';
+      }
+      $scope.tabs[activeTab] = 'active';
+    };
 };
 
 // Members {{{
@@ -71,6 +81,7 @@ function PublicationsCtrl($scope, $http, $location) {
 
 function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
   $scope.isNew = $routeParams.pubId === undefined;
+  console.log("HI");
   if (!$scope.isNew) {
     $http.get('/api/publications/edit/' + $routeParams.memberId + '/' + $routeParams.pubId).
       success(function(data) {

@@ -23,7 +23,7 @@ module.exports = function(app) {
   app.param('pubId', publications.publication);
 
   // redirect all others to the index (HTML5 history)
-  app.get('*', publications.list);
+  app.get('*', master.index);
 
 }
 

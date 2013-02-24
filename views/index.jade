@@ -1,18 +1,15 @@
 extends layout
 
 block body
-  div(class="container-fluid")
+  div(ng-controller="IndexCtrl", class="container-fluid")
     div(class="row-fluid")
       div(class="span2")
         h2 ALS Books
         ul(class="nav nav-pills nav-stacked")
-          li
-            a(href='/') Publications
-          li
-            a(href='/members') Members
-            ul(class="nav nav-pills nav-stacked")
-              li
-                a(href='/importMembers') Import New Members from CSV
+          li(ng-class='tabs.publication')
+            a(href="/", eat-click, ng-click="toggleTab('publication')") Publications
+          li(ng-class='tabs.member')
+            a(href="/members", eat-click, ng-class='tabs.member', ng-click="toggleTab('member')") Members
       div(class="span10")
         div(ng-view)
 
