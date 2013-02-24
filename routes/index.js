@@ -4,6 +4,7 @@
  */
 
 exports.index = function(req, res){
+  console.log("HI");
   res.render('index');
 };
 
