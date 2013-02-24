@@ -24,6 +24,10 @@ function ImportMemberCtrl($scope, $http, $location) {
   $scope.importMember = function() {
     $http.post('/api/importMembers', $scope.form).
       success(function(data) {
+        if (data.error) {
+          $scope.error = $data.error;
+          return;
+        };
         $location.path('/')
       });
   };

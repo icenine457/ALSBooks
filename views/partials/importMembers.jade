@@ -4,4 +4,5 @@ div(ng-controller='ImportMemberCtrl')
     input(type="file", name="importMembersCsv")
     input(type="submit", name="importMembersSubmit")
 
+  div(ng-visible="error.length > 0") Errors : {{error}}
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

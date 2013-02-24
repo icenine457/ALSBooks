@@ -3,6 +3,7 @@
 var express = require('express')
    , passport = require('passport')
    , fs = require('fs')
+   , partials = require('express-partials')
 
 // }}}
 
@@ -25,6 +26,7 @@ require('./config/passport')(passport, config)
 var app = express();
 require('./config/express')(app, config, passport)
 require('./config/routes')(app, passport, auth)
+app.use(partials());
 // }}}
 
 // API {{{
