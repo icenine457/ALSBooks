@@ -12,15 +12,19 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
         templateUrl: 'partials/importMembers',
         controller: ImportMemberCtrl
       }).
-      when('/viewMembers', {
+      when('/members', {
         templateUrl: 'partials/viewMembers',
         controller: MembersCtrl
       }).
-      when('/editMember/:id', {
+      when('/members/:id', {
         templateUrl: 'partials/editMember',
         controller: EditMemberCtrl
       }).
-      when('/editPublication/:memberId/:pubId', {
+      when('/publications/edit/:memberId/:pubId', {
+        templateUrl: 'partials/editPublication',
+        controller: EditPublicationCtrl
+      }).
+      when('/publications/new/:memberId', {
         templateUrl: 'partials/editPublication',
         controller: EditPublicationCtrl
       }).

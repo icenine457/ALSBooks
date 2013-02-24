@@ -1,4 +1,5 @@
-/* Controllers */
+// Controllers
+// TODO: Use modules!
 
 function IndexCtrl($scope, $http) {
   $http.get('/api/publications').
@@ -7,6 +8,7 @@ function IndexCtrl($scope, $http) {
     });
 };
 
+// Members {{{
 function ImportMemberCtrl($scope, $http, $location) {
   $scope.form = {};
   $scope.importMember = function() {
@@ -26,6 +28,27 @@ function MembersCtrl($scope, $http, $location) {
     });
 };
 
+
+function EditMemberCtrl($scope, $http, $location, $routeParams) {
+  $http.get('/api/members/edit/' + $routeParams.id).
+    success(function(data) {
+      $scope.member = data.member;
+    });
+
+  $scope.editMember = function() {
+    $http.put('/api/members/save/' + $routeParams.id, $scope.member).
+      success(function(data) {
+        $location.path('/members');
+      });
+  };
+
+  $scope.addPublication = function() {
+    $location.path('/publications/new/' + $scope.member._id);
+  }
+};
+// }}}
+
+// Publications {{{
 function PublicationsCtrl($scope, $http, $location) {
   $scope.form = {};
   $http.get('/api/publications', $scope.form).
@@ -36,46 +59,36 @@ function PublicationsCtrl($scope, $http, $location) {
 };
 
 function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
-  $scope.form = {};
-  $http.get('/api/editPublication/' + $routeParams.memberId + "/" + $routeParams.pubId).
-    success(function(data) {
-      $scope.publication = data.publication;
-      $scope.pubMedia = data.pubMedia;
-    });
-
-  $scope.savePublication = function() {
-    $http.put('/api/editPublication/' + $routeParams.memberId + '/' + $routeParams.pubId, $scope.publication).
+  $scope.isNew = $routeParams.pubId === undefined;
+  if (!$scope.isNew) {
+    $http.get('/api/publications/edit/' + $routeParams.memberId + '/' + $routeParams.pubId).
       success(function(data) {
-        $location.path('/viewMembers');
-      });
-  }
-
-  $scope.cancelPublication = function() {
-    $http.get('/api/editMember/' + $routeParams.id).
-      success(function(data) {
-        $scope.member = data.member;
+        $scope.publication = data.publication;
         $scope.pubMedia = data.pubMedia;
-        $scope.isEditingPub = false;
       });
+
+    $scope.savePublication = function() {
+      $http.post('/api/publications/save/' + $routeParams.memberId + '/' + $routeParams.pubId, $scope.publication).
+        success(function(data) {
+          $location.path('/viewMembers');
+        });
+    }
+  }
+  else {
+    $http.get('/api/publications/new/' + $routeParams.memberId).
+      success(function(data) {
+        $scope.publication = data.publication;
+        $scope.pubMedia = data.pubMedia;
+        $scope.isNew = true;
+      });
+
+    $scope.savePublication = function() {
+        $http.put('/api/publications/create/' + $routeParams.memberId, $scope.publication).
+        success(function(data) {
+          $location.path('/viewMembers');
+        });
+    }
   }
 }
 
-function EditMemberCtrl($scope, $http, $location, $routeParams) {
-  $scope.form = {};
-  $http.get('/api/editMember/' + $routeParams.id).
-    success(function(data) {
-      $scope.member = data.member;
-      $scope.pubMedia = data.pubMedia;
-    });
-
-  $scope.editMember = function() {
-    $http.put('/api/editMember/' + $routeParams.id, $scope.member).
-      success(function(data) {
-        $location.path('/viewMembers');
-      });
-  };
-
-  $scope.addPublication = function() {
-    $location.path('/editPublication/' + $scope.member._id + '/0');
-  }
-};
+// }}}

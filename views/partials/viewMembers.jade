@@ -10,7 +10,7 @@ div(ng-controller='MembersCtrl')
         th Publications
     tr(ng-repeat='member in members')
       td
-        a(href='editMember/{{member._id}}') {{member.fullName}}
+        a(href='members/{{member._id}}') {{member.fullName}}
       td {{member.inductionYear}}
       td
         span(ng-visible="member.emailAddresses.length == 0")

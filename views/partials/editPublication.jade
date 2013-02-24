@@ -1,10 +1,10 @@
 div(ng-controller='EditPublicationCtrl')
   div(class="row-fluid")
     div(class="span12")
-      h4(ng-visible="publication._id == 0") New Publication
-      h4(ng-visible="publication._id != 0") Editing {{ publication.pubTitle }}
+      h4(ng-visible="isNew") New Publication
+      h4(ng-visible="!isNew") Editing {{ publication.pubTitle }}
       label(for='pubMedia') Publication Medium
-      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p.mediaLabel for p in pubMedia")
+      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p identify by p._id as p.mediaLabel for p in pubMedia")
         option(value="") Choose a media type
       br
       label(for='pubTitle') Publication Title

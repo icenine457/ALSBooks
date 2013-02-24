@@ -12,9 +12,9 @@ div(ng-controller='PublicationsCtrl')
         th Notes
     tr(ng-repeat='publication in publications')
       td
-        a(href='editPublication/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+        a(href='publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
       td
-        a(href='editMember/{{publication.member._id}}') {{publication.member.fullName}}
+        a(href='members/{{publication.member._id}}') {{publication.member.fullName}}
       td {{publication.member.inductionYear}}
       td {{publication.pubYear}}
       td {{publication.pubMedium.mediaLabel}}
