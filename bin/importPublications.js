@@ -48,10 +48,10 @@ process.argv.forEach(function (val, index, array) {
             PublicationMedia.findOne({mediaLabel: 'Unknown'}, function(err, unknownMedium) {
               if (!medium) medium = unknownMedium;
               var publication = new Publication({
-                validStatus: 1,
                 pubTitle: data[3],
                 pubYear: data[4],
                 pubNotes: data[0],
+                verified: true
                 member: {
                   _id: thisMember._id,
                   fullName: thisMember.fullName,

@@ -75,8 +75,22 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.google = {
     page: 0,
     limit: 40,
-    totalItems: 0,
-    publications: []
+    publications: [],
+    isNavigating: false
+  };
+
+  $scope.showExisting = function(pubId) {
+    $http.get('/api/publications/edit/' + $scope.member._id + '/' + pubId).
+      success(function(data) {
+        $scope.modalPub = data.publication;
+        $scope.pubMedia = data.pubMedia;
+        $('#existingPubModal').modal()
+      });
+  }
+
+  $scope.hidePubModal = function() {
+    console.log("HI");
+    $('#existingPubModal').modal('hide')
   };
 
   $scope.toggleTab = function(activeTab) {
@@ -102,19 +116,21 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
       });
   };
 
+
   $scope.addPublication = function() {
     $location.path('/publications/new/' + $scope.member._id);
   }
 
   $scope.searchGoogle = function() {
+    if ($scope.google.isNavigating) return
+    $scope.google.isNavigating = true;
     var url = '/api/members/' + $scope.member._id + '/search/google/' + $scope.google.page + '/' + $scope.google.limit;
-    $http.get(url).
-      success(function(data) {
-        $scope.importClicked = true;
-        $scope.google.publications = $scope.google.publications.concat(data.publications);
-        $scope.google.page =+ $scope.google.limit;
-        $scope.google.totalItems = data.totalItems;
-      });
+    $http.get(url).success(function(data) {
+      $scope.importClicked = true;
+      $scope.google.publications = $scope.google.publications.concat(data.publications);
+      $scope.google.isNavigating = false;
+      $scope.google.page = $scope.google.page + $scope.google.limit;
+    });
   }
 };
 

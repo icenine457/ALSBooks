@@ -1,0 +1,64 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'angular-ui' ]
+2 info using npm@1.2.11
+3 info using node@v0.8.21
+4 verbose read json /home/icenine/src/als-books/package.json
+5 verbose read json /home/icenine/src/als-books/node_modules/connect-mongo/package.json
+6 verbose read json /home/icenine/src/als-books/node_modules/angular/package.json
+7 verbose read json /home/icenine/src/als-books/node_modules/underscore/package.json
+8 verbose read json /home/icenine/src/als-books/node_modules/express-partials/package.json
+9 verbose read json /home/icenine/src/als-books/node_modules/express-validator/package.json
+10 verbose read json /home/icenine/src/als-books/node_modules/passport-local/package.json
+11 verbose read json /home/icenine/src/als-books/node_modules/crypto/package.json
+12 verbose read json /home/icenine/src/als-books/node_modules/passport/package.json
+13 verbose read json /home/icenine/src/als-books/node_modules/express/package.json
+14 verbose read json /home/icenine/src/als-books/node_modules/moment/package.json
+15 verbose read json /home/icenine/src/als-books/node_modules/jade/package.json
+16 verbose read json /home/icenine/src/als-books/node_modules/node-oauth/package.json
+17 verbose read json /home/icenine/src/als-books/node_modules/mongoose/package.json
+18 verbose read json /home/icenine/src/als-books/node_modules/connect-flash/package.json
+19 verbose read json /home/icenine/src/als-books/node_modules/node-gdata-oauth2/package.json
+20 verbose read json /home/icenine/src/als-books/node_modules/async/package.json
+21 verbose read json /home/icenine/src/als-books/node_modules/mongodb/package.json
+22 verbose from cache /home/icenine/src/als-books/package.json
+23 verbose readDependencies using package.json deps
+24 verbose cache add [ 'angular-ui', null ]
+25 verbose cache add name=undefined spec="angular-ui" args=["angular-ui",null]
+26 verbose parsed url { pathname: 'angular-ui',
+26 verbose parsed url   path: 'angular-ui',
+26 verbose parsed url   href: 'angular-ui' }
+27 silly lockFile b31bf997-angular-ui angular-ui
+28 verbose lock angular-ui /home/icenine/.npm/b31bf997-angular-ui.lock
+29 silly lockFile b31bf997-angular-ui angular-ui
+30 silly lockFile b31bf997-angular-ui angular-ui
+31 verbose addNamed [ 'angular-ui', '' ]
+32 verbose addNamed [ null, '' ]
+33 silly lockFile edb41cd6-angular-ui angular-ui@
+34 verbose lock angular-ui@ /home/icenine/.npm/edb41cd6-angular-ui.lock
+35 silly addNameRange { name: 'angular-ui', range: '', hasData: false }
+36 verbose url raw angular-ui
+37 verbose url resolving [ 'https://registry.npmjs.org/', './angular-ui' ]
+38 verbose url resolved https://registry.npmjs.org/angular-ui
+39 info trying registry request attempt 1 at 16:59:48
+40 http GET https://registry.npmjs.org/angular-ui
+41 http 404 https://registry.npmjs.org/angular-ui
+42 silly registry.get cb [ 404,
+42 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+42 silly registry.get     date: 'Sun, 03 Mar 2013 21:59:49 GMT',
+42 silly registry.get     'content-type': 'application/json',
+42 silly registry.get     'content-length': '52',
+42 silly registry.get     'cache-control': 'must-revalidate' } ]
+43 silly lockFile edb41cd6-angular-ui angular-ui@
+44 silly lockFile edb41cd6-angular-ui angular-ui@
+45 error 404 'angular-ui' is not in the npm registry.
+45 error 404 You should bug the author to publish it
+45 error 404
+45 error 404 Note that you can also install from a
+45 error 404 tarball, folder, or http url, or git url.
+46 error System Linux 3.7.9-1-ARCH
+47 error command "/usr/bin/node" "/usr/bin/npm" "install" "angular-ui"
+48 error cwd /home/icenine/src/als-books
+49 error node -v v0.8.21
+50 error npm -v 1.2.11
+51 error code E404
+52 verbose exit [ 1, true ]

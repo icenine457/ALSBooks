@@ -64,25 +64,46 @@ div
     div(ng-visible="importClicked").row-fluid
       h4 Search Results
       p(ng-visible="google.publications.length == 0") No publications found.
-      p(ng-visible="google.publications.length > 0") We've found {{ google.publications.length }} potential publications
       div(style='overflow: hidden')
       table(class="table table-hover")
         thead
           tr
+            th Import
+            th Verify
+            th Exists?
             th Title
             th Year
             th Medium
-            th Notes
             th Author
         tbody
           tr(ng-repeat='publication in google.publications')
+            td
+              input(type="checkbox", ng-model="publication.import")
+            td
+              input(type="checkbox", ng-model="publication.verify")
+            td
+              button(ng-visible="publication.existingPubId", name="showExisting", ng-click="showExisting(publication.existingPubId)").btn.btn-mini Show
             td {{publication.pubTitle}}
             td {{publication.pubYear}}
             td {{publication.pubMedium.mediaLabel}}
-            td {{publication.pubNotes}}
             td
               span(ng-repeat="author in publication.reportedAuthors") {{author}},
-      button(ng-visible="google.totalItems > google.publications.length", name="showMore", ng-click="searchGoogle()").offset3.btn.btn-small.btn-primary Show More
+      button(name="showMore", ng-click="searchGoogle()").offset3.btn.btn-small.btn-primary Show More
 
+
+      div(role="dialog", aria-hidden="true", tabIndex="-1", id="existingPubModal").modal.hide.fade
+        div.modal-header
+          button(type="button", data-disiss="modal", ng-click='hidePubModal()', aria-hidden="true").close &times;
+          h3 Publication Details
+        div.modal-body
+          dl
+            dt Title
+            dd {{modalPub.pubTitle}}
+            dt Publication Year
+            dd {{modalPub.pubYear}}
+            dt Media
+            dd {{modalPub.pubMedium.mediaLabel}}
+        div.modal-footer
+          a(href="javascript:", ng-click='hidePubModal()').btn Close
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
