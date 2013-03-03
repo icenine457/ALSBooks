@@ -1,8 +1,10 @@
-div(ng-controller='ImportMemberCtrl')
+div
   h2 Import Members
-  form(action="api/importMembers", method="post", enctype="multipart/form-data")
-    input(type="file", name="importMembersCsv")
-    input(type="submit", name="importMembersSubmit")
-
-  div(ng-visible="error.length > 0") Errors : {{error}}
+  form(ng-controller="ImportMemberCtrl", name="importMembers")
+    div.row-fluid
+      div.row-fluid
+        input(type="file", name="importMembersCsv", id="importMembersCsv")
+      div.row-fluid
+        button(ng-click="uploadImport()", id="importMembersSubmit", name="importMembersSubmit").btn.btn-primary Submit
+    div {{error}}
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

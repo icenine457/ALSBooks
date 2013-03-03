@@ -4,7 +4,8 @@ module.exports = {
     app: {
       name: 'ALS Books'
     },
-    db: 'mongodb://localhost/alsBooks'
+    db: 'mongodb://localhost/alsBooks',
+    googleApiKey: 'AIzaSyDrgLtAS6CBk9nw_6fnOlog_z2wfjLEHzU'
   }
   , test: {
 

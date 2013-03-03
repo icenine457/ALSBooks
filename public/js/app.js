@@ -1,16 +1,20 @@
 'use strict';
 
-// Declare app level module which depends on filters, and services
+// Application definition {{{
 angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.directives']).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
     $routeProvider.
       when('/', {
         templateUrl: 'partials/index',
-        controller: IndexCtrl
+        controller: LandingCtrl
+      }).
+      when('/publications', {
+        templateUrl: 'partials/publications',
+        controller: PublicationsCtrl
       }).
       when('/importMembers', {
-        templateUrl: 'partials/importMembers',
-        controller: ImportMemberCtrl
+        templateUrl: 'partials/importMembers'
       }).
       when('/members', {
         templateUrl: 'partials/viewMembers',
@@ -31,5 +35,6 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
       otherwise({
         redirectTo: '/'
       });
-    $locationProvider.html5Mode(true);
   }]);
+
+// }}}

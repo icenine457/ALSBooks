@@ -1,6 +1,6 @@
 'use strict';
 
-/* Filters */
+// Filters {{{
 
 angular.module('alsbooks.filters', []).
   filter('interpolate', ['version', function(version) {
@@ -9,3 +9,4 @@ angular.module('alsbooks.filters', []).
     }
   }]);
 
+// }}}

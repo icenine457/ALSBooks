@@ -1,39 +1,54 @@
 // Controllers
 // TODO: Use modules!
 
-function IndexCtrl($scope, $http) {
-  $http.get('/api/publications').
-    success(function(data, status, headers, config) {
-      $scope.publications = data.publications;
-      $scope.tabs = {
-        member: '',
-        publication: 'active'
-      }
-    });
-    $scope.toggleTab = function(activeTab) {
-      for (var tab in $scope.tabs) {
-        $scope.tabs[tab] = '';
-      }
-      $scope.tabs[activeTab] = 'active';
-    };
+function IndexCtrl($scope, $http, $location) {
+  $scope.getActiveTab = function(navDetails, navPoint) {
+    var re = new RegExp("\/" + navDetails.navItem);
+    $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
+  };
+  $scope.tabs = {
+    member: {
+      navItem: "members",
+      navClass: ""
+    },
+    publication: {
+      navItem: "publications",
+      navClass: ""
+    }
+  }
+  $scope.$on('changeTab', function() {
+    _.each($scope.tabs, $scope.getActiveTab)
+  });
 };
 
 // Members {{{
 function ImportMemberCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
   $scope.form = {};
-  $scope.importMember = function() {
-    $http.post('/api/importMembers', $scope.form).
-      success(function(data) {
-        if (data.error) {
-          $scope.error = $data.error;
-          return;
-        };
-        $location.path('/')
-      });
+  $scope.successCount = 0;
+  $scope.error = '';
+  $scope.uploadImport = function() {
+    var file = document.getElementById("importMembersCsv").files[0];
+    var reader = new FileReader();
+    reader.onloadend = function(thisFile) {
+      $http.post('/api/importMembers', thisFile).
+        success(function(data) {
+          $location.path('/members');
+        }).
+        error(function(data) {
+          $scope.error = data.error;
+        });
+    };
+    reader.readAsText(file)
   };
 };
 
+function LandingCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
+}
+
 function MembersCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
   $scope.form = {};
   $http.get('/api/members', $scope.form).
     success(function(data) {
@@ -44,6 +59,7 @@ function MembersCtrl($scope, $http, $location) {
 
 
 function EditMemberCtrl($scope, $http, $location, $routeParams) {
+  $scope.$emit('changeTab');
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
       $scope.member = data.member;
@@ -53,6 +69,16 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
       }
     });
 
+  $scope.importClicked = false;
+  $scope.isEditing = false;
+  $scope.memberBtnText = "Edit";
+  $scope.google = {
+    page: 0,
+    limit: 40,
+    totalItems: 0,
+    publications: []
+  };
+
   $scope.toggleTab = function(activeTab) {
     for (var tab in $scope.tabs) {
       $scope.tabs[tab] = '';
@@ -60,6 +86,15 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
     $scope.tabs[activeTab] = 'active';
   };
 
+  $scope.toggleEdit = function() {
+    if ($scope.isEditing) {
+      $scope.isEditing = false;
+    }
+    else {
+      $scope.isEditing = true;
+    }
+
+  };
   $scope.editMember = function() {
     $http.put('/api/members/save/' + $routeParams.id, $scope.member).
       success(function(data) {
@@ -70,11 +105,25 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.addPublication = function() {
     $location.path('/publications/new/' + $scope.member._id);
   }
+
+  $scope.searchGoogle = function() {
+    var url = '/api/members/' + $scope.member._id + '/search/google/' + $scope.google.page + '/' + $scope.google.limit;
+    $http.get(url).
+      success(function(data) {
+        $scope.importClicked = true;
+        $scope.google.publications = $scope.google.publications.concat(data.publications);
+        $scope.google.page =+ $scope.google.limit;
+        $scope.google.totalItems = data.totalItems;
+      });
+  }
 };
+
 // }}}
 
 // Publications {{{
 function PublicationsCtrl($scope, $http, $location) {
+
+  $scope.$emit('changeTab');
   $scope.form = {};
   $http.get('/api/publications', $scope.form).
     success(function(data) {
@@ -84,8 +133,14 @@ function PublicationsCtrl($scope, $http, $location) {
 };
 
 function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
+  $scope.$emit('changeTab');
+
+  $scope.cancelEdit = function() {
+    window.history.back()
+  }
+
+
   $scope.isNew = $routeParams.pubId === undefined;
-  console.log("HI");
   if (!$scope.isNew) {
     $http.get('/api/publications/edit/' + $routeParams.memberId + '/' + $routeParams.pubId).
       success(function(data) {
@@ -96,7 +151,7 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
     $scope.savePublication = function() {
       $http.post('/api/publications/save/' + $routeParams.memberId + '/' + $routeParams.pubId, $scope.publication).
         success(function(data) {
-          $location.path('/viewMembers');
+          window.history.back()
         });
     }
   }
@@ -111,7 +166,7 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
     $scope.savePublication = function() {
         $http.put('/api/publications/create/' + $routeParams.memberId, $scope.publication).
         success(function(data) {
-          $location.path('/viewMembers');
+          window.history.back()
         });
     }
   }

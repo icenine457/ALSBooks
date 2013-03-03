@@ -4,20 +4,23 @@ block body
   div(ng-controller="IndexCtrl", class="container-fluid")
     div(class="row-fluid")
       div(class="span2")
-        h2 ALS Books
+        h2
+          a(href="/", ng-click="refreshTab") ALS Books
         ul(class="nav nav-pills nav-stacked")
-          li(ng-class='tabs.publication')
-            a(href="/", eat-click, ng-click="toggleTab('publication')") Publications
-          li(ng-class='tabs.member')
-            a(href="/members", eat-click, ng-class='tabs.member', ng-click="toggleTab('member')") Members
+          li(ng-class='tabs.publication.navClass')
+            a(href="/publications", eat-click, ng-click="refreshTab") Publications
+          li(ng-class='tabs.member.navClass')
+            a(href="/members", eat-click, ng-click="refreshTab") Members
       div(class="span10")
         div(ng-view)
 
   script(src='js/lib/angular/angular.js')
+  script(src='js/lib/underscore-min.js')
+  script(src='js/lib/angular-underscore.js')
   script(src='js/lib/bootstrap/bootstrap.js')
   script(src='js/app.js')
   script(src='js/services.js')
   script(src='js/controllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
-//  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 
+//  vim: set tw=0 ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 

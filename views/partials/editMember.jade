@@ -1,29 +1,70 @@
-div(ng-controller='EditMemberCtrl')
+div
   ul.nav.nav-tabs
     li(ng-class='tabs.member')
       a(href="javascript:", eat-click, ng-class='tabs.member', ng-click="toggleTab('member')") Member Profile
     li(ng-class='tabs.publication')
       a(href="javascript:", eat-click, ng-click="toggleTab('publication')") Publications
-  div(ng-visible="tabs.member == 'active'" )
+  div(ng-visible="tabs.member == 'active'" ).row-fluid
     h4 {{member.fullName}}'s Profile
-    label(for='firstName') First Name
-    input(type="text", ng-model='member.firstName', name="firstName")
-    br
-    label(for='lastName') Last Name
-    input(type="text", ng-model='member.lastName', name="lastName")
-    br
-    label(for='inductionYear') Induction Year
-    input(type="text", ng-model='member.inductionYear', name="inductionYear")
-    br
-    button(name="SubmitMember", ng-click="editMember()") Save Member
-    br
-
-  div(ng-visible="tabs.publication == 'active'")
-    h4 {{member.fullName}}'s Publications
       span(style="display: inline-block;")
-        button(name="Add Publication", ng-click="addPublication()").offset3.btn.btn-small New
-    div(ng-visible="member.publications.length == 0") {{member.fullName}} has no publications.
-    div(ng-visible="member.publications.length > 0")
+        button(ng-visible="!isEditing", ng-click="toggleEdit()", class="btn btn-small btn-primary").offset2 Edit
+
+    div(ng-visible="!isEditing")
+      div.row-fluid
+        div.span2 Induction Year
+        div.span4 {{ member.inductionYear }}
+      div.row-fluid
+        div.span2 E-mail
+        div.span4 {{ member.emailAddresses[0] }}
+
+    div(ng-visible="isEditing")
+      div.row-fluid
+        label(for='firstName') First Name
+        input(type="text", ng-model='member.firstName', name="firstName")
+        br
+        label(for='lastName') Last Name
+        input(type="text", ng-model='member.lastName', name="lastName")
+        br
+        label(for='inductionYear') Induction Year
+        input(type="text", ng-model='member.inductionYear', name="inductionYear")
+        br
+        label(for='email') Email
+        input(type="text", ng-model='member.emailAddresses[0]', name="emailAddress")
+        br
+        div.row-fluid
+          div.span2
+            button(name="SubmitMember", ng-click="editMember()").btn.btn-primary Save Member
+          div.span4
+            button(name="Cancel", ng-click="toggleEdit()").btn.btn-inverse Cancel
+
+  div(ng-visible="tabs.publication == 'active'").row-fluid
+    div(ng-visible="!importClicked").row-fluid
+      h4 {{member.fullName}}'s Publications
+        span(style="display: inline-block;")
+          button(name="addPublication", ng-click="addPublication()").offset2.btn.btn-small.btn-primary New
+        span(style="display: inline-block;")
+          button(name="searchGoogle", ng-click="searchGoogle()").offset3.btn.btn-small.btn-primary Search Google
+      div(ng-visible="member.publications.length == 0") {{member.fullName}} has no publications.
+      div(ng-visible="member.publications.length > 0")
+        div(style='overflow: hidden')
+        table(class="table table-hover")
+          thead
+            tr
+              th Title
+              th Year
+              th Medium
+              th Notes
+          tbody
+            tr(ng-repeat='publication in member.publications')
+              td
+                a(href='/publications/edit/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
+              td {{publication.pubYear}}
+              td {{publication.pubMedium.mediaLabel}}
+              td {{publication.pubNotes}}
+    div(ng-visible="importClicked").row-fluid
+      h4 Search Results
+      p(ng-visible="google.publications.length == 0") No publications found.
+      p(ng-visible="google.publications.length > 0") We've found {{ google.publications.length }} potential publications
       div(style='overflow: hidden')
       table(class="table table-hover")
         thead
@@ -32,13 +73,16 @@ div(ng-controller='EditMemberCtrl')
             th Year
             th Medium
             th Notes
+            th Author
         tbody
-          tr(ng-repeat='publication in member.publications')
-            td
-              a(href='editPublication/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          tr(ng-repeat='publication in google.publications')
+            td {{publication.pubTitle}}
             td {{publication.pubYear}}
             td {{publication.pubMedium.mediaLabel}}
             td {{publication.pubNotes}}
+            td
+              span(ng-repeat="author in publication.reportedAuthors") {{author}},
+      button(ng-visible="google.totalItems > google.publications.length", name="showMore", ng-click="searchGoogle()").offset3.btn.btn-small.btn-primary Show More
 
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

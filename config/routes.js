@@ -8,6 +8,7 @@ module.exports = function(app) {
   app.get('/', master.index);
   app.get('/partials/:name', master.partials)
   app.get('/api/members', members.list);
+  app.get('/api/members/:memberId/search/google/:page/:maxResults', members.searchGoogle);
   app.post('/api/importMembers', members.import);
   app.get('/api/members/edit/:memberId', members.edit);
   app.put('/api/members/save/:memberId', members.save);

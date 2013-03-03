@@ -1,8 +1,9 @@
-div(ng-controller='EditPublicationCtrl')
+div
   div(class="row-fluid")
     div(class="span12")
       h4(ng-visible="isNew") New Publication
       h4(ng-visible="!isNew") Editing {{ publication.pubTitle }}
+      h5(ng-visible="!isNew") Publisher: {{ publication.member.fullName }}
       label(for='pubMedia') Publication Medium
       select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p identify by p._id as p.mediaLabel for p in pubMedia")
         option(value="") Choose a media type
@@ -20,4 +21,4 @@ div(ng-controller='EditPublicationCtrl')
         div(class="span1")
           button(name="SubmitPub", class="btn btn-primary btn-small", ng-click="savePublication(publication)") Save
         div(class="span1 offset2")
-          button(name="CancelPub", class="btn btn-small", ng-click="cancelPublication(publication)") Cancel
+          button(name="CancelPub", class="btn btn-small", ng-click="cancelEdit()") Cancel
