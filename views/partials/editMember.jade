@@ -63,6 +63,8 @@ div
               td {{publication.pubNotes}}
     div(ng-visible="importClicked").row-fluid
       h4 Search Results
+        span(style="display: inline-block;")
+          button(ng-click="google.importPubs()", type="button").offset2.btn.btn-small.btn-primary Import
       p(ng-visible="google.publications.length == 0") No publications found.
       div(style='overflow: hidden')
       table(class="table table-hover")
@@ -78,9 +80,9 @@ div
         tbody
           tr(ng-repeat='publication in google.publications')
             td
-              input(type="checkbox", ng-model="publication.import")
+              input(type="checkbox", ng-model="publication.imported")
             td
-              input(type="checkbox", ng-model="publication.verify")
+              input(type="checkbox", ng-model="publication.verified")
             td
               button(ng-visible="publication.existingPubId", name="showExisting", ng-click="showExisting(publication.existingPubId)").btn.btn-mini Show
             td {{publication.pubTitle}}
@@ -88,22 +90,21 @@ div
             td {{publication.pubMedium.mediaLabel}}
             td
               span(ng-repeat="author in publication.reportedAuthors") {{author}},
-      button(name="showMore", ng-click="searchGoogle()").offset3.btn.btn-small.btn-primary Show More
+      button(name="showMore", ng-click="searchGoogle()").btn.btn-small.btn-primary Show More
 
-
-      div(role="dialog", aria-hidden="true", tabIndex="-1", id="existingPubModal").modal.hide.fade
-        div.modal-header
-          button(type="button", data-disiss="modal", ng-click='hidePubModal()', aria-hidden="true").close &times;
-          h3 Publication Details
-        div.modal-body
-          dl
-            dt Title
-            dd {{modalPub.pubTitle}}
-            dt Publication Year
-            dd {{modalPub.pubYear}}
-            dt Media
-            dd {{modalPub.pubMedium.mediaLabel}}
-        div.modal-footer
-          a(href="javascript:", ng-click='hidePubModal()').btn Close
+    div(role="dialog", aria-hidden="true", tabIndex="-1", id="existingPubModal").modal.hide.fade
+      div.modal-header
+        button(type="button", data-disiss="modal", ng-click='hidePubModal()', aria-hidden="true").close &times;
+        h3 Existing Publication Details
+      div.modal-body
+        dl
+          dt Title
+          dd {{modalPub.pubTitle}}
+          dt Publication Year
+          dd {{modalPub.pubYear}}
+          dt Media
+          dd {{modalPub.pubMedium.mediaLabel}}
+      div.modal-footer
+        a(href="javascript:", ng-click='hidePubModal()').btn Close
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -1,6 +1,7 @@
 // Controllers
 // TODO: Use modules!
 
+// {{{ Index
 function IndexCtrl($scope, $http, $location) {
   $scope.getActiveTab = function(navDetails, navPoint) {
     var re = new RegExp("\/" + navDetails.navItem);
@@ -21,7 +22,14 @@ function IndexCtrl($scope, $http, $location) {
   });
 };
 
+function LandingCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
+}
+
+// }}}
+
 // Members {{{
+// TODO: Refactor the hell out of this view/controller. It's huge.
 function ImportMemberCtrl($scope, $http, $location) {
   $scope.$emit('changeTab');
   $scope.form = {};
@@ -42,10 +50,6 @@ function ImportMemberCtrl($scope, $http, $location) {
     reader.readAsText(file)
   };
 };
-
-function LandingCtrl($scope, $http, $location) {
-  $scope.$emit('changeTab');
-}
 
 function MembersCtrl($scope, $http, $location) {
   $scope.$emit('changeTab');
@@ -89,7 +93,6 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   }
 
   $scope.hidePubModal = function() {
-    console.log("HI");
     $('#existingPubModal').modal('hide')
   };
 
@@ -132,6 +135,15 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
       $scope.google.page = $scope.google.page + $scope.google.limit;
     });
   }
+
+  $scope.google.importPubs = function() {
+    var importedPubsToSend = _.where($scope.google.publications, { imported: true } );
+    $http.put('/api/publications/import/' + $scope.member._id, importedPubsToSend).
+      success(function(data) {
+        console.log(data.publications.length);
+      });
+  };
+
 };
 
 // }}}
@@ -153,6 +165,14 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
 
   $scope.cancelEdit = function() {
     window.history.back()
+  }
+
+  $scope.addPubIdentifier = function() {
+    console.log($scope.publication.industryIdentifiers);
+    $scope.publication.industryIdentifiers.push({
+      type: '',
+      identifier: ''
+    });
   }
 
 

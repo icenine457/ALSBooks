@@ -51,7 +51,8 @@ process.argv.forEach(function (val, index, array) {
                 pubTitle: data[3],
                 pubYear: data[4],
                 pubNotes: data[0],
-                verified: true
+                verified: true,
+                imported: true,
                 member: {
                   _id: thisMember._id,
                   fullName: thisMember.fullName,
@@ -59,7 +60,8 @@ process.argv.forEach(function (val, index, array) {
                 },
                 pubMedium: {
                   _id: medium._id,
-                  mediaLabel: medium.mediaLabel
+                  mediaLabel: medium.mediaLabel,
+                  googleLabel: medium.googleLabel
                 }
               });
               thisMember.publications.push(publication);

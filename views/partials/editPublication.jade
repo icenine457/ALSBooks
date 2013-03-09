@@ -16,7 +16,16 @@ div
       br
       label(for='pubNotes') Notes
       textarea(ng-model='publication.pubNotes', name="pubNotes")
-        br
+      h5 Identifiers
+        span(style="display: inline-block;")
+          button(ng-click="addPubIdentifier()", type="button").offset2.btn.btn-small.btn-primary Add
+      div(ng-repeat='indId in publication.industryIdentifiers').row-fluid
+        div(class="row-fluid")
+          label(for="type-{{$index}}") Type
+          input(ng-model="indId.type", type="text", name="type-{{$index}}")
+        div(class="row-fluid")
+          label(for="identifier-{{$index}}") Identifier
+          input(ng-model="indId.identifier", type="text", name="identifier-{{$index}}")
       div(class="row-fluid")
         div(class="span1")
           button(name="SubmitPub", class="btn btn-primary btn-small", ng-click="savePublication(publication)") Save

@@ -19,6 +19,7 @@ module.exports = function(app) {
   app.post('/api/publications/save/:memberId/:pubId', publications.save);
   app.put('/api/publications/create/:memberId', publications.create);
   app.get('/api/publications', publications.list);
+  app.put('/api/publications/import/:memberId', publications.import);
 
   app.param('memberId', members.member);
   app.param('pubId', publications.publication);
