@@ -4,11 +4,13 @@ div()
     div.btn-toolbar
       a(href="javascript:", eat-click, ng-disabled="isLoading", ng-class="disableButtons()", ng-click="importPubs(false)").btn.btn-small.btn-primary Import
       a(href="javascript:", eat-click, ng-disabled="isLoading", ng-class="disableButtons()", ng-click="importPubs(true)").btn.btn-small.btn-success Import + Verify
+  div.row-fluid
   div(ng-visible="isLoading")
     img(src="img/loading.gif")
   div(ng-visible="!isLoading")
+    h5 Member: {{ member.fullName }}
     p(ng-visible="publications.length == 0") No publications found.
-    div(style='overflow: hidden')
+    div(ng-visible="publications.length > 0", style='overflow: hidden')
       table(class="table table-hover")
         thead
           tr

@@ -10,5 +10,5 @@ div()
         a(href='members/{{member._id}}') {{member.fullName}}
       td
         button(ng-visible="!(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link Search
-        button(ng-visible="(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link {{ getDate(member).toDateString() }}
+        button(ng-visible="(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link {{ getDate(member.googleSearched).toDateString() }}
 //  vim: set et ft=jade tw=0 fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 

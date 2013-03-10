@@ -71,12 +71,8 @@ function SearchCtrl($scope, $http, $location, $routeParams) {
       $scope.members = data;
     });
 
-  $scope.getDate = function(member) {
-    if (!member.searchProviders || !member.searchProviders.google) {
-      return '';
-    }
-    var date = new Date(member.searchProviders.google.lastSearched);
-    return date;
+  $scope.getDate = function(dateStr) {
+    return new Date(dateStr);
   }
 
   $scope.searchProviders = {
@@ -85,11 +81,8 @@ function SearchCtrl($scope, $http, $location, $routeParams) {
         $location.path('/webSearch/google/' + member._id);
       },
       hasBeenSearched: function(member) {
-        if (!member.searchProviders || !member.searchProviders.google) {
-          return false;
-        }
         // TODO: Investigate moment.js for this
-        var lastSearched = member.searchProviders.google.lastSearched;
+        var lastSearched = member.googleSearched;
         var isDate = (typeof(lastSearched) === "string" )
         //if (member.lastName == 'Ludlum') console.log(typeof(lastSearched));
         return isDate;
@@ -101,6 +94,7 @@ function SearchCtrl($scope, $http, $location, $routeParams) {
 }
 
 function SearchGoogleCtrl($scope, $http, $location, $routeParams) {
+  $scope.$emit('changeTab');
   $scope.page = 0
   $scope.limit = 40
   $scope.isLoading = true;
@@ -111,6 +105,7 @@ function SearchGoogleCtrl($scope, $http, $location, $routeParams) {
   $scope.searchGoogle = function() {
     var url = '/api/search/google/' + $scope.memberId + '/' + $scope.page + '/' + $scope.limit;
     $http.get(url).success(function(data) {
+      $scope.member = data.member;
       if (data.publications && !data.publications.length == 0) {
         $scope.disableShowMore = false;
         $scope.publications = $scope.publications.concat(data.publications);
@@ -176,7 +171,9 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.isEditing = false;
   $scope.memberBtnText = "Edit";
 
-
+  $scope.pubStatus = function(pub) {
+    return pub.verified ? "success" : "warning"
+  };
 
   $scope.toggleTab = function(activeTab) {
     for (var tab in $scope.tabs) {
@@ -219,6 +216,11 @@ function PublicationsCtrl($scope, $http, $location) {
   $http.get('/api/publications', $scope.form).
     success(function(data) {
       $scope.publications = data;
+
+      $scope.pubStatus = function(pub) {
+        return pub.verified ? "success" : "warning"
+      };
+
       $scope.publicationsHeader = "There " + ( data.length == 1 ? "is " : "are ") + (data.length > 0 ? data.length : "no") + " publication" + (data.length != 1 ? "s." : ".");
     });
 };
@@ -232,6 +234,7 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
 
   $scope.addPubIdentifier = function() {
     console.log($scope.publication.industryIdentifiers);
+    // TODO: Move to controller
     $scope.publication.industryIdentifiers.push({
       type: '',
       identifier: ''

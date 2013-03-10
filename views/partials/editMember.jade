@@ -44,7 +44,6 @@ div
           button(name="addPublication", ng-click="addPublication()").offset2.btn.btn-small.btn-primary New
       div(ng-visible="member.publications.length == 0") {{member.fullName}} has no publications.
       div(ng-visible="member.publications.length > 0")
-        div(style='overflow: hidden')
         table(class="table table-hover")
           thead
             tr
@@ -53,11 +52,16 @@ div
               th Medium
               th Notes
           tbody
-            tr(ng-repeat='publication in member.publications')
+            tr(ng-repeat='publication in member.publications', ng-class="pubStatus(publication)")
               td
                 a(href='/publications/edit/{{member._id}}/{{publication._id}}') {{publication.pubTitle}}
               td {{publication.pubYear}}
               td {{publication.pubMedium.mediaLabel}}
-              td {{publication.pubNotes}}
+              td {{publication.pubNotes }}
+        h5 Legend
+          div.row-fluid
+            em.label.label-warning Work unverified
+          div.row-fluid
+            em.label.label-success Work verified
 
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
