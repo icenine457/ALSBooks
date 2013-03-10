@@ -36,20 +36,20 @@ process.argv.forEach(function (val, index, array) {
         return row;
       })
       .on("record", function (data, index) {
-        Member.findOne({lastName: data[1].split(' ')[0], firstName: data[1].split(' ')[1], inductionYear: data[2]}, function(err, thisMember) {
+        Member.findOne({lastName: data[1], firstName: data[2]}, function(err, thisMember) {
           // Inside member
           if (!thisMember) {
             console.log("No member found: " + JSON.stringify(data));
             return;
           }
-          PublicationMedia.findOne({mediaLabel: data[5]}, function(err, medium) {
-            console.log("Publication medium is : " + medium.mediaLabel);
+          PublicationMedia.findOne({mediaLabel: data[6]}, function(err, medium) {
             // Inside publication media
             PublicationMedia.findOne({mediaLabel: 'Unknown'}, function(err, unknownMedium) {
               if (!medium) medium = unknownMedium;
+              console.log("Publication medium is : " + medium.mediaLabel);
               var publication = new Publication({
-                pubTitle: data[3],
-                pubYear: data[4],
+                pubTitle: data[4],
+                pubYear: data[5],
                 pubNotes: data[0],
                 verified: true,
                 imported: true,

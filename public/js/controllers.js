@@ -15,6 +15,10 @@ function IndexCtrl($scope, $http, $location) {
     publication: {
       navItem: "publications",
       navClass: ""
+    },
+    webSearch: {
+      navItem: "webSearch",
+      navClass: ""
     }
   }
   $scope.$on('changeTab', function() {
@@ -29,7 +33,6 @@ function LandingCtrl($scope, $http, $location) {
 // }}}
 
 // Members {{{
-// TODO: Refactor the hell out of this view/controller. It's huge.
 function ImportMemberCtrl($scope, $http, $location) {
   $scope.$emit('changeTab');
   $scope.form = {};
@@ -61,6 +64,102 @@ function MembersCtrl($scope, $http, $location) {
     });
 };
 
+function SearchCtrl($scope, $http, $location, $routeParams) {
+  $scope.$emit('changeTab');
+  $http.get('/api/members', $scope.form).
+    success(function(data) {
+      $scope.members = data;
+    });
+
+  $scope.getDate = function(member) {
+    if (!member.searchProviders || !member.searchProviders.google) {
+      return '';
+    }
+    var date = new Date(member.searchProviders.google.lastSearched);
+    return date;
+  }
+
+  $scope.searchProviders = {
+    google: {
+      search: function(member) {
+        $location.path('/webSearch/google/' + member._id);
+      },
+      hasBeenSearched: function(member) {
+        if (!member.searchProviders || !member.searchProviders.google) {
+          return false;
+        }
+        // TODO: Investigate moment.js for this
+        var lastSearched = member.searchProviders.google.lastSearched;
+        var isDate = (typeof(lastSearched) === "string" )
+        //if (member.lastName == 'Ludlum') console.log(typeof(lastSearched));
+        return isDate;
+      },
+    }
+  };
+
+
+}
+
+function SearchGoogleCtrl($scope, $http, $location, $routeParams) {
+  $scope.page = 0
+  $scope.limit = 40
+  $scope.isLoading = true;
+  $scope.publications = []
+  $scope.memberId = $routeParams.memberId;
+  $scope.disableShowMore = true;
+
+  $scope.searchGoogle = function() {
+    var url = '/api/search/google/' + $scope.memberId + '/' + $scope.page + '/' + $scope.limit;
+    $http.get(url).success(function(data) {
+      if (data.publications && !data.publications.length == 0) {
+        $scope.disableShowMore = false;
+        $scope.publications = $scope.publications.concat(data.publications);
+      }
+      else {
+        $scope.disableShowMore = true;
+      }
+      $scope.page = $scope.page + $scope.limit;
+      $scope.isLoading = false;
+    })
+  }
+
+  $scope.searchGoogle();
+
+  $scope.disableButtons = function() {
+    if ($scope.isLoading) return "disabled";
+  };
+
+
+  $scope.showExisting = function(pubId) {
+    $http.get('/api/publications/edit/' + $scope.memberId + '/' + pubId).
+      success(function(data) {
+        $scope.modalPub = data.publication;
+        $scope.pubMedia = data.pubMedia;
+        $('#existingPubModal').modal()
+      });
+  }
+
+  $scope.hidePubModal = function() {
+    $('#existingPubModal').modal('hide')
+  };
+
+  $scope.importPubs = function(isVerified) {
+    $scope.isLoading = true;
+    var importedPubsToSend = _.where($scope.publications, { imported: true } );
+    if (isVerified) {
+      importedPubsToSend = _.map(importedPubsToSend, function(pub) {
+        pub.verified = true;
+        return pub;
+      });
+    }
+    $http.put('/api/publications/import/' + $scope.memberId, importedPubsToSend).
+      success(function(data) {
+        $scope.publications = _.where($scope.publications, { imported: false } );
+        $scope.isLoading = false;
+      });
+  };
+
+}
 
 function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.$emit('changeTab');
@@ -76,25 +175,8 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.importClicked = false;
   $scope.isEditing = false;
   $scope.memberBtnText = "Edit";
-  $scope.google = {
-    page: 0,
-    limit: 40,
-    publications: [],
-    isNavigating: false
-  };
 
-  $scope.showExisting = function(pubId) {
-    $http.get('/api/publications/edit/' + $scope.member._id + '/' + pubId).
-      success(function(data) {
-        $scope.modalPub = data.publication;
-        $scope.pubMedia = data.pubMedia;
-        $('#existingPubModal').modal()
-      });
-  }
 
-  $scope.hidePubModal = function() {
-    $('#existingPubModal').modal('hide')
-  };
 
   $scope.toggleTab = function(activeTab) {
     for (var tab in $scope.tabs) {
@@ -124,25 +206,6 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
     $location.path('/publications/new/' + $scope.member._id);
   }
 
-  $scope.searchGoogle = function() {
-    if ($scope.google.isNavigating) return
-    $scope.google.isNavigating = true;
-    var url = '/api/members/' + $scope.member._id + '/search/google/' + $scope.google.page + '/' + $scope.google.limit;
-    $http.get(url).success(function(data) {
-      $scope.importClicked = true;
-      $scope.google.publications = $scope.google.publications.concat(data.publications);
-      $scope.google.isNavigating = false;
-      $scope.google.page = $scope.google.page + $scope.google.limit;
-    });
-  }
-
-  $scope.google.importPubs = function() {
-    var importedPubsToSend = _.where($scope.google.publications, { imported: true } );
-    $http.put('/api/publications/import/' + $scope.member._id, importedPubsToSend).
-      success(function(data) {
-        console.log(data.publications.length);
-      });
-  };
 
 };
 

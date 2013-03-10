@@ -1,14 +1,11 @@
 var mongoose = require('mongoose')
   , publications = require('../lib/controllers/publications')
   , members = require('../lib/controllers/members')
-  , master = require('../routes/index')
+  , webSearch = require('../lib/controllers/webSearch')
 
 module.exports = function(app) {
 
-  app.get('/', master.index);
-  app.get('/partials/:name', master.partials)
   app.get('/api/members', members.list);
-  app.get('/api/members/:memberId/search/google/:page/:maxResults', members.searchGoogle);
   app.post('/api/importMembers', members.import);
   app.get('/api/members/edit/:memberId', members.edit);
   app.put('/api/members/save/:memberId', members.save);
@@ -21,11 +18,19 @@ module.exports = function(app) {
   app.get('/api/publications', publications.list);
   app.put('/api/publications/import/:memberId', publications.import);
 
+  app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
+
   app.param('memberId', members.member);
   app.param('pubId', publications.publication);
 
-  // redirect all others to the index (HTML5 history)
-  app.get('*', master.index);
+  app.get('/partials/:name', function(req, res) {
+    var name = req.params.name;
+    res.render('partials/' + name);
+  });
+
+  app.get('*', function(req, res) {
+    res.render('index');
+  });
 
 }
 

@@ -36,6 +36,14 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
         templateUrl: 'partials/editPublication',
         controller: EditPublicationCtrl
       }).
+      when('/webSearch/google/:memberId', {
+        templateUrl: 'partials/google',
+        controller: SearchGoogleCtrl
+      }).
+      when('/webSearch', {
+        templateUrl: 'partials/webSearch',
+        controller: SearchCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });

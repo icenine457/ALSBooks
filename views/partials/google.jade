@@ -1,0 +1,50 @@
+div()
+  div.row-fluid
+    h4.span4 Google Web Search
+    div.btn-toolbar
+      a(href="javascript:", eat-click, ng-disabled="isLoading", ng-class="disableButtons()", ng-click="importPubs(false)").btn.btn-small.btn-primary Import
+      a(href="javascript:", eat-click, ng-disabled="isLoading", ng-class="disableButtons()", ng-click="importPubs(true)").btn.btn-small.btn-success Import + Verify
+  div(ng-visible="isLoading")
+    img(src="img/loading.gif")
+  div(ng-visible="!isLoading")
+    p(ng-visible="publications.length == 0") No publications found.
+    div(style='overflow: hidden')
+      table(class="table table-hover")
+        thead
+          tr
+            th Import
+            th Exists?
+            th Title
+            th Year
+            th Medium
+            th Author
+        tbody
+          tr(ng-repeat='publication in publications')
+            td
+              input(type="checkbox", ng-model="publication.imported")
+            td
+              button(ng-visible="publication.existingPubId", name="showExisting-{{$index}}", ng-click="showExisting(publication.existingPubId)").btn.btn-mini Show
+            td {{publication.pubTitle}}
+            td {{publication.pubYear}}
+            td {{publication.pubMedium.mediaLabel}}
+            td
+              span(ng-repeat="author in publication.reportedAuthors") {{author}},
+    div(ng-visible="!disableShowMore").row-fluid
+      a(href="javascript:", name="showMore", ng-click="searchGoogle()").btn.btn-small 
+        i.icon-search
+        span &nbsp;Show More
+
+    div(role="dialog", aria-hidden="true", tabIndex="-1", id="existingPubModal").modal.hide.fade
+      div.modal-header
+        button(type="button", data-disiss="modal", ng-click='hidePubModal()', aria-hidden="true").close &times;
+        h3 Existing Publication Details
+      div.modal-body
+        dl
+          dt Title
+          dd {{modalPub.pubTitle}}
+          dt Publication Year
+          dd {{modalPub.pubYear}}
+          dt Media
+          dd {{modalPub.pubMedium.mediaLabel}}
+      div.modal-footer
+        a(href="javascript:", ng-click='hidePubModal()').btn Close

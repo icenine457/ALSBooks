@@ -1,0 +1,14 @@
+div()
+  h2 Web Search
+  table(ng-visible="members.length > 0").table.table-hover
+    tr
+      th Member Name
+      th
+        img(src='img/google.png')
+    tr(ng-repeat='member in members')
+      td
+        a(href='members/{{member._id}}') {{member.fullName}}
+      td
+        button(ng-visible="!(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link Search
+        button(ng-visible="(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link {{ getDate(member).toDateString() }}
+//  vim: set et ft=jade tw=0 fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 
