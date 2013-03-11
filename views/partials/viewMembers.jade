@@ -3,21 +3,30 @@ div
     span(style="display: inline-block;")
       a(class="btn btn-small btn-primary", href="/importMembers").offset3 Import
   p {{ memberHeader }}
-  table(ng-visible="members.length > 0").table.table-hover
-    tr
-      th Member Name
-      th Induction Year
-      th E-mail
-      th Publications
-    tr(ng-repeat='member in members')
-      td
-        a(href='members/{{member._id}}') {{member.fullName}}
-      td {{member.inductionYear}}
-      td
-        span(ng-visible="member.emailAddresses.length == 0")
-          em (None)
-        span(ng-visible="member.emailAddresses.length > 0") {{member.emailAddresses[0]}}
-      td
-        span(ng-visible="member.publications.length == 0")
-          em (None)
-        span(ng-visible="member.publications.length > 0") {{member.publications.length}}
+  div(ng-visible="members.length > 0")
+    table.table.table-hover
+      tr
+        th Member Name
+        th Induction Year
+        th E-mail
+        th Publications
+      tr(ng-repeat='member in members')
+        td
+          a(href='members/{{member._id}}') {{member.fullName}}
+        td {{member.inductionYear}}
+        td
+          span(ng-visible="member.emailAddresses.length == 0")
+            em (None)
+          span(ng-visible="member.emailAddresses.length > 0") {{member.emailAddresses[0]}}
+        td
+          span(ng-visible="member.publications.length == 0")
+            em (None)
+          span(ng-visible="member.publications.length > 0") {{member.publications.length}}
+    div.pagination
+      ul
+        li
+          a(href="javascript:", ng-click="prevPage()") Prev
+        li(ng-repeat='thisPage in visiblePages()', ng-class="isPageSelected(thisPage)")
+          a(href="javascript:",ng-click="navPage(thisPage)") {{ thisPage + 1 }}
+        li
+         a(href="javascript:", ng-click="nextPage()") Next

@@ -11,4 +11,12 @@ div()
       td
         button(ng-visible="!(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link Search
         button(ng-visible="(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link {{ getDate(member.googleSearched).toDateString() }}
+  div.pagination
+    ul
+      li
+        a(href="javascript:", ng-click="prevPage()") Prev
+      li(ng-repeat='thisPage in visiblePages()', ng-class="isPageSelected(thisPage)")
+        a(href="javascript:",ng-click="navPage(thisPage)") {{ thisPage + 1 }}
+      li
+        a(href="javascript:", ng-click="nextPage()") Next
 //  vim: set et ft=jade tw=0 fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 
