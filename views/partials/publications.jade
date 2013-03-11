@@ -1,27 +1,28 @@
 div
   h2 Publications
   p {{ publicationsHeader }}
-  table(class="table table-hover")
-    thead
-      tr
-        th Title
-        th Member Name
-        th Induction Year
-        th Year Published
-        th Medium
-        th Notes
-    tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
-      td
-        a(href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
-      td
-        a(href='/members/{{publication.member._id}}') {{publication.member.fullName}}
-      td {{publication.member.inductionYear}}
-      td {{publication.pubYear}}
-      td {{publication.pubMedium.mediaLabel}}
-      td {{publication.pubNotes}}
-  h5 Legend
-    div.row-fluid
-      em.label.label-warning Work unverified
-    div.row-fluid
-      em.label.label-success Work verified
+  div(ng-visible="publications.length > 0")
+    table(class="table table-hover")
+      thead
+        tr
+          th Title
+          th Member Name
+          th Induction Year
+          th Year Published
+          th Medium
+          th Notes
+      tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
+        td
+          a(href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+        td
+          a(href='/members/{{publication.member._id}}') {{publication.member.fullName}}
+        td {{publication.member.inductionYear}}
+        td {{publication.pubYear}}
+        td {{publication.pubMedium.mediaLabel}}
+        td {{publication.pubNotes}}
+    h5 Legend
+      div.row-fluid
+        em.label.label-warning Work unverified
+      div.row-fluid
+        em.label.label-success Work verified
 //  vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 

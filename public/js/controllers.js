@@ -59,7 +59,7 @@ function MembersCtrl($scope, $http, $location) {
   $scope.page = 0;
   $scope.perPage = 10;
   $scope.list = function() {
-    $http.get('/api/members/' + $scope.page + '/' + $scope.perPage).
+    $http.get('/api/members/list/' + $scope.page + '/' + $scope.perPage).
       success(function(data) {
         $scope.members = data.members;
         $scope.membersTotal = data.membersTotal;
@@ -109,7 +109,7 @@ function SearchCtrl($scope, $http, $location, $routeParams) {
   $scope.page = 0;
   $scope.perPage = 10;
   $scope.list = function() {
-    $http.get('/api/members/' + $scope.page + '/' + $scope.perPage).
+    $http.get('/api/members/list/' + $scope.page + '/' + $scope.perPage).
       success(function(data) {
         $scope.members = data.members;
         $scope.membersTotal = data.membersTotal;
@@ -242,6 +242,7 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.$emit('changeTab');
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
+      console.log(data);
       $scope.member = data.member;
       $scope.tabs = {
         member: 'active',
