@@ -15,8 +15,11 @@ var Publication = mongoose.model('Publication')
    , Member = mongoose.model('Member')
    , PublicationMedia = mongoose.model('PublicationMedia')
 
-Member.pFind()
+var readFile = promisify(fs.readFile, 1);
 
-  
+Member.create(
+  var fileName = process.argv[0];
+  .map(readFile)
+  .Member.p
 }
 

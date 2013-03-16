@@ -5,11 +5,12 @@ div
   p {{ memberHeader }}
   div(ng-visible="members.length > 0")
     table.table.table-hover
-      tr
-        th Member Name
-        th Induction Year
-        th E-mail
-        th Publications
+      thead
+        tr
+          th Member Name
+          th Induction Year
+          th E-mail
+          th Publications
       tr(ng-repeat='member in members')
         td
           a(href='members/{{member._id}}') {{member.fullName}}

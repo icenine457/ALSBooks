@@ -1,10 +1,11 @@
 div()
   h2 Web Search
   table(ng-visible="members.length > 0").table.table-hover
-    tr
-      th Member Name
-      th
-        img(src='img/google.png')
+    thead
+      tr
+        th Member Name
+        th
+          img(src='img/google.png')
     tr(ng-repeat='member in members')
       td
         a(href='members/{{member._id}}') {{member.fullName}}
