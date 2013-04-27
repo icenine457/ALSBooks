@@ -19,7 +19,7 @@ var Publication = mongoose.model('Publication')
 
 Member.pFind = promisify(Member.find);
 
-Member.pFind({ openLibraryIds: { $exists: true } })
+Member.pFind({})
 .end(function(members) {
   var fileName = process.argv[2]
   csv()
@@ -29,7 +29,7 @@ Member.pFind({ openLibraryIds: { $exists: true } })
       return row;
     })
     .on('error', function(error) {
-      console.error(error);
+      console.log(error);
       process.exit(0);
     })
     .on('record', function(data, index) {
@@ -37,38 +37,28 @@ Member.pFind({ openLibraryIds: { $exists: true } })
         JSON.parse(data[0]);
       }
       catch (e) {
-        console.error("Invalid JSON at line: " + index)
+        console.log("Invalid JSON at line: " + index)
         return;
       }
       var json = JSON.parse(data[0]);
       members.forEach(function(member) {
-        if (!(member.openLibraryIds instanceof Array)) return
+        var firstNameRg = new RegExp('^' + member.firstName);
+        var lastNameRg = new RegExp(member.lastName + '$');
         try {
-          var authors = json.authors;
-          member.openLibraryIds.forEach(function(oid) {
-            authors.forEach(function(authorRecord) {
-              if (authorRecord.author.key == "/authors/" + oid) {
-                var workOid = data[2].split('/')[2]
-                // Match found! Praise be to Zion.
-                if (!(member.openLibraryPubIds instanceof Array)) {
-                  member.openLibraryPubIds = [];
-                }
-
-                if ( member.openLibraryPubIds.indexOf(workOid) != -1) {
-                  return;
-                }
-
-                member.openLibraryPubIds.push(workOid);
-                member.save(function(err) {
-                  console.log("Found publication for: " + member.fullName + "; OID: " + workOid)
-                });
-
-              }
-            });
-          });
+          if (json.name.match(firstNameRg, 'i') && json.name.match(lastNameRg, 'i')) {
+            // Match found, spit it out
+            var oid = data[2].split('/')[2];
+            if (!(member.openLibraryIds instanceof Array)
+                || (member.openLibraryIds.indexOf(oid) === -1 )) {
+              member.openLibraryIds.push(oid);
+              member.save(function(err) {
+                console.log("Found a match: " + oid + " for member: " + member.fullName)
+              });
+            }
+          }
         }
         catch (e) {
-          console.error("Error at line " + index + "; Exception: " + e);
+          console.log("Error at line " + index + "; Exception: " + e);
           return false;
         }
       })
