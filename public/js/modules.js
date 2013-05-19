@@ -1,5 +1,5 @@
 // Modules {{{
 
-angular.module('alsBooks', ['angular-underscore']);
+angular.module('alsbooks', ['angular-underscore', 'ngCookies']);
 
 /// }}}

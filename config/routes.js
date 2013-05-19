@@ -2,8 +2,9 @@ var mongoose = require('mongoose')
   , publications = require('../lib/controllers/publications')
   , members = require('../lib/controllers/members')
   , webSearch = require('../lib/controllers/webSearch')
+  , users = require('../lib/controllers/users')
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
   app.get('/api/members/list/:page/:perPage', members.list);
   app.post('/api/importMembers', members.import);
@@ -19,6 +20,10 @@ module.exports = function(app) {
   app.put('/api/publications/import/:memberId', publications.import);
 
   app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
+
+  app.post('/api/users/login', passport.authenticate('local', {failureRedirect: '/api/users/loginFailed'}), users.session)
+  app.get('/api/users/loginFailed', users.loginFailed);
+  app.post('/api/users/create', users.create)
 
   app.param('memberId', members.member);
   app.param('pubId', publications.publication);

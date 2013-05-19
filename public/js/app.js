@@ -9,6 +9,14 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
         templateUrl: 'partials/index',
         controller: LandingCtrl
       }).
+      when('/login', {
+        templateUrl: 'partials/login',
+        controller: LoginCtrl
+      }).
+      when('/signup', {
+        templateUrl: 'partials/signup',
+        controller: SignupCtrl
+      }).
       when('/publications', {
         templateUrl: 'partials/publications',
         controller: PublicationsCtrl
@@ -47,6 +55,6 @@ angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.d
       otherwise({
         redirectTo: '/'
       });
-  }]);
+  }])
 
 // }}}

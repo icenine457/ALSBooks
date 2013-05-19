@@ -8,6 +8,10 @@ function IndexCtrl($scope, $http, $location) {
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
   $scope.tabs = {
+    login: {
+      navItem: "login",
+      navClass: ""
+    },
     member: {
       navItem: "members",
       navClass: ""
@@ -28,6 +32,43 @@ function IndexCtrl($scope, $http, $location) {
 
 function LandingCtrl($scope, $http, $location) {
   $scope.$emit('changeTab');
+}
+
+// }}}
+
+// Login {{{
+
+function LoginCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
+  $scope.user = {
+    password: "",
+    email: ""
+  };
+  $scope.login = function() {
+    $http.post('/api/users/login', $scope.user).
+      success(function(data) {
+        console.log(data)
+        if (data.success) {
+          $scope.loginSuccess = true;
+        }
+      })
+  };
+}
+
+function SignupCtrl($scope, $http, $location) {
+  $scope.user = {
+    name: "",
+    email: "",
+    password: "",
+    username: ""
+  }
+  $scope.signup = function() {
+    $http.post('/api/users/create', $scope.user).
+      success(function(data) {
+        console.log(data)
+      })
+
+  }
 }
 
 // }}}

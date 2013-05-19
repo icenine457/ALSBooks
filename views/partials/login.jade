@@ -1,0 +1,18 @@
+div
+  h3 Login
+  h4(ng-visible="loginSuccess") YOU LOGGED IN HUZZAH
+  form.form-horizontal
+    .control-group
+      label.control-label(for='inputEmail') Email
+      .controls
+        input#inputEmail(type='text', placeholder='Email', ng-model='user.email')
+    .control-group
+      label.control-label(for='inputPassword') Password
+      .controls
+        input#inputPassword(type='password', placeholder='Password', ng-model='user.password')
+    .control-group
+      .controls
+        label.checkbox Remember Me
+          input(type='checkbox') 
+        button.btn(type='submit', ng-click='login()') Sign in
+//  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -13,6 +13,8 @@ block body
             a(href="/members", eat-click, ng-click="refreshTab") Members
           li(ng-class='tabs.webSearch.navClass')
             a(href="/webSearch", eat-click, ng-click="refreshTab") Web Search
+          li(ng-class='tabs.publication.navClass')
+            a(href="/login", eat-click, ng-click="refreshTab") Login
       div(class="span10")
         div(ng-view)
 
