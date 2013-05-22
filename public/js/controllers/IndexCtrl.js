@@ -3,7 +3,6 @@ function IndexCtrl($scope, $http, $location) {
   // Sets the active tab in the UI
   $scope.getActiveTab = function(navDetails, navPoint) {
     var re = new RegExp("\/" + navDetails.navItem);
-    console.log($location.path())
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
 
