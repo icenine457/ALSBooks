@@ -36,7 +36,7 @@ app.use(partials());
 
 // Server initialization {{{
 
-var port = process.env.PORT || 3000
+var port = process.env.ALSPUBSPORT || 80
 app.listen(port)
 console.log('Express app started on port '+port)
 
