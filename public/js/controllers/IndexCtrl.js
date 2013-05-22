@@ -1,8 +1,12 @@
 function IndexCtrl($scope, $http, $location) {
+
+  // Sets the active tab in the UI
   $scope.getActiveTab = function(navDetails, navPoint) {
     var re = new RegExp("\/" + navDetails.navItem);
+    console.log($location.path())
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
+
   $scope.tabs = {
     login: {
       navItem: "login",
@@ -12,7 +16,7 @@ function IndexCtrl($scope, $http, $location) {
       navItem: "members",
       navClass: ""
     },
-    publication: {
+    publications: {
       navItem: "publications",
       navClass: ""
     },

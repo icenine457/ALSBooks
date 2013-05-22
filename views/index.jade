@@ -7,13 +7,13 @@ block body
         h2
           a(href="/", ng-click="refreshTab") ALS Books
         ul(class="nav nav-pills nav-stacked")
-          li(ng-class='tabs.publication.navClass')
+          li(ng-class='tabs.publications.navClass')
             a(href="/publications", eat-click, ng-click="refreshTab") Publications
           li(ng-class='tabs.member.navClass')
             a(href="/members", eat-click, ng-click="refreshTab") Members
           li(ng-class='tabs.webSearch.navClass')
             a(href="/webSearch", eat-click, ng-click="refreshTab") Web Search
-          li(ng-class='tabs.publication.navClass')
+          li(ng-class='tabs.login.navClass')
             a(href="/login", eat-click, ng-click="refreshTab") Login
     div(ng-view)
 
