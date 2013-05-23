@@ -21,10 +21,18 @@ var alsbooks = angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.service
         templateUrl: 'partials/publications',
         controller: PublicationsCtrl
       }).
+      when('/publications/:page/:perPage', {
+        templateUrl: 'partials/publications',
+        controller: PublicationsCtrl
+      }).
       when('/importMembers', {
         templateUrl: 'partials/importMembers'
       }).
       when('/members', {
+        templateUrl: 'partials/viewMembers',
+        controller: MembersCtrl
+      }).
+      when('/members/:page/:perPage', {
         templateUrl: 'partials/viewMembers',
         controller: MembersCtrl
       }).

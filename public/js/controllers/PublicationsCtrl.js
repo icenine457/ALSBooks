@@ -1,11 +1,11 @@
 
-function PublicationsCtrl($scope, $http, $location, $cookies) {
+function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
 
   $scope.$emit('changeTab');
   $scope.form = {};
   $scope.loggedIn = !(typeof($cookies["alsbooks.loggedIn"]) === "undefined");
-  $scope.page = 0;
-  $scope.perPage = 10;
+  $scope.page = ( ( $routeParams.page === undefined || isNaN($routeParams.page)) ? 0 : $routeParams.page )
+  $scope.perPage = ( ( $routeParams.perPage === undefined || isNaN($routeParams.perPage)) ? 10 : $routeParams.perPage )
 
   $scope.list = function() {
     $http.get('/api/publications/list/' + $scope.page + '/' + $scope.perPage).
@@ -41,23 +41,30 @@ function PublicationsCtrl($scope, $http, $location, $cookies) {
   };
   $scope.list()
 
+  var updatePageUrl = function() {
+      $location.path("/publications/" + $scope.page + "/" + $scope.perPage)
+  }
+
   $scope.navPage = function(page) {
     if ($scope.page == page) return;
     $scope.skip = page * $scope.perPage;
     $scope.page = page;
     $scope.list();
+    updatePageUrl();
   };
   $scope.nextPage = function() {
     if ($scope.page == Math.ceil($scope.membersTotal / $scope.perPage)) return;
     ++$scope.page
     $scope.skip = $scope.page * $scope.perPage;
     $scope.list();
+    updatePageUrl();
   };
   $scope.prevPage = function() {
     if ($scope.page == 0) return;
     --$scope.page
     $scope.skip = $scope.page * $scope.perPage;
     $scope.list();
+    updatePageUrl();
   };
 };
 

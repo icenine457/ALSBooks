@@ -19,10 +19,10 @@ function ImportMemberCtrl($scope, $http, $location) {
   };
 };
 
-function MembersCtrl($scope, $http, $location) {
+function MembersCtrl($scope, $http, $location, $routeParams) {
   $scope.$emit('changeTab');
-  $scope.page = 0;
-  $scope.perPage = 10;
+  $scope.page = ( ( $routeParams.page === undefined || isNaN($routeParams.page)) ? 0 : $routeParams.page )
+  $scope.perPage = ( ( $routeParams.perPage === undefined || isNaN($routeParams.perPage)) ? 10 : $routeParams.perPage )
   $scope.list = function() {
     $http.get('/api/members/list/' + $scope.page + '/' + $scope.perPage).
       success(function(data) {
