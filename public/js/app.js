@@ -1,7 +1,7 @@
 'use strict';
 
 // Application definition {{{
-angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.directives']).
+var alsbooks = angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.services', 'alsbooks.directives', 'angular-underscore', 'ngCookies']).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider.

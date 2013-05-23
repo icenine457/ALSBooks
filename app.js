@@ -24,6 +24,7 @@ fs.readdirSync(modelsPath).forEach(function (modelFile) {
 require('./config/passport')(passport, config)
 
 var app = express();
+app.use(express.cookieParser());
 require('./config/express')(app, config, passport)
 require('./config/routes')(app, passport, auth)
 app.use(partials());

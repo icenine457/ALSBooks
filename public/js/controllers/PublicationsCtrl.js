@@ -23,7 +23,6 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
   }
 
   $scope.addPubIdentifier = function() {
-    console.log($scope.publication.industryIdentifiers);
     // TODO: Move to controller
     $scope.publication.industryIdentifiers.push({
       type: '',

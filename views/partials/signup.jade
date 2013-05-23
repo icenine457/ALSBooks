@@ -1,28 +1,32 @@
 div
-  h3 Login
+  h3 Create Account
   form.signup.form-horizontal()
-    .control-group
+    .control-group(ng-class="{error: errors.name != null}")
       label.control-label(for='name') Full name
       .controls
         input#name(type='text', name="name", placeholder='Full name', ng-model='user.name')
+        div(ng-visible='errors.name != null', ng-model='errors.name.type') {{ errors.name.type }}
 
-    .control-group
+    .control-group(ng-class="{error: errors.email != null}")
       label.control-label(for='email') Email
       .controls
-        input#email(type='text', name="email", placeholder='Email', ng-model='user.email')
+        input#email(type='text', name="email", ng-model="user.email", placeholder='Email')
+        div(ng-visible='errors.email != null', ng-model='errors.email.type') {{ errors.email.type }}
 
-    .control-group
+    .control-group(ng-class="{error: errors.username != null}")
       label.control-label(for='username') Username
       .controls
         input#username(type='text', name="username", placeholder='Username', ng-model='user.username')
+        div(ng-visible='errors.username != null', ng-model='errors.username.type') {{ errors.username.type }}
 
-    .control-group
+    .control-group(ng-class="{error: errors.hashed_password != null}")
       label.control-label(for='password') Password
       .controls
         input#password(type='password', name="password", placeholder='Password', ng-model='user.password')
+        div(ng-visible='errors.hashed_password != null', ng-model='errors.hashed_password.type') {{ errors.hashed_password.type }}
 
     .form-actions
-      button.btn(type='button', ng-click='signup()') Sign in
+      button.btn(type='button', ng-click='signup()') Create Account
       &nbsp;
       | or&nbsp;
       a.show-login(href="/login") login

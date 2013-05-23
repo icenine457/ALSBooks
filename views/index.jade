@@ -3,23 +3,31 @@ extends layout
 block body
   div(ng-controller="IndexCtrl", class="container-fluid")
     div(class="navbar")
-      div(class="navbar-inner")
+      div(class="navbar-inner",ng-cloak)
         h2
           a(href="/", ng-click="refreshTab") ALS Publication Tracker
         ul(class="nav nav-pills nav-stacked")
-          li(ng-class='tabs.publications.navClass')
+          li(ng-class='tabs.publications.navClass', ng-visible="tabs.publications.visible")
             a(href="/publications", eat-click, ng-click="refreshTab") Publications
-          li(ng-class='tabs.member.navClass')
+
+          li(ng-class='tabs.member.navClass',ng-visible="tabs.member.visible")
             a(href="/members", eat-click, ng-click="refreshTab") Members
-          li(ng-class='tabs.webSearch.navClass')
+
+          li(ng-class='tabs.webSearch.navClass',ng-visible="tabs.webSearch.visible")
             a(href="/webSearch", eat-click, ng-click="refreshTab") Web Search
-          li(ng-class='tabs.login.navClass')
+
+          li(ng-class='tabs.login.navClass', ng-visible="!loggedIn")
             a(href="/login", eat-click, ng-click="refreshTab") Login
+
+          li(ng-class='tabs.signup.navClass', ng-visible="tabs.signup.visible")
+            a(href="/signup", eat-click, ng-click="refreshTab") Create Account
     div(ng-view)
 
   script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js')
   script(src='js/lib/bootstrap/bootstrap.js')
   script(src='js/lib/angular/angular.js')
+  script(src='js/lib/angular/angular-cookies.js')
+  script(src='js/lib/angular-http-auth/src/http-auth-interceptor.js')
   script(src='js/lib/underscore-min.js')
   script(src='js/lib/angular-underscore.js')
   script(src='js/app.js')
