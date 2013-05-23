@@ -36,6 +36,10 @@ var alsbooks = angular.module('alsbooks', ['alsbooks.filters', 'alsbooks.service
         templateUrl: 'partials/editPublication',
         controller: EditPublicationCtrl
       }).
+      when('/publications/view/:memberId/:pubId', {
+        templateUrl: 'partials/viewPublication',
+        controller: ViewPublicationCtrl
+      }).
       when('/publications/edit/:memberId/:pubId/modal', {
         templateUrl: 'partials/modals/editPublication',
         controller: EditPublicationCtrl

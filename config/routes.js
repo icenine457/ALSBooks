@@ -14,6 +14,7 @@ module.exports = function(app, passport) {
   var publications = require('../lib/controllers/publications');
   app.get('/api/publications/new/:memberId', publications.new);
   app.get('/api/publications/edit/:memberId/:pubId', publications.get);
+  app.get('/api/publications/view/:memberId/:pubId', publications.get);
   app.post('/api/publications/save/:memberId/:pubId', publications.save);
   app.put('/api/publications/create/:memberId', publications.create);
   app.get('/api/publications', publications.list);

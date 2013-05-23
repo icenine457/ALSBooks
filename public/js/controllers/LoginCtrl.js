@@ -6,10 +6,9 @@ function LoginCtrl($scope, $http, $location, $cookies) {
   };
   $scope.login = function() {
     $http.post('/api/users/login', $scope.user).
-      success(function(data) {
-        if (data) {
+      success(function(loggedIn) {
+        if (loggedIn) {
           $scope.$emit('login');
-          $scope.loginSuccess = true;
         }
       })
   };

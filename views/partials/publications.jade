@@ -13,9 +13,11 @@ div
           th Notes
       tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
         td
-          a(href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          a(ng-visible="loggedIn", href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          a(ng-visible="!loggedIn", href='/publications/view/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
         td
-          a(href='/members/{{publication.member._id}}') {{publication.member.fullName}}
+          a(ng-visible="loggedIn",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
+          span(ng-visible="!loggedIn") {{publication.member.fullName}}
         td {{publication.member.inductionYear}}
         td {{publication.pubYear}}
         td {{publication.pubMedium.mediaLabel}}

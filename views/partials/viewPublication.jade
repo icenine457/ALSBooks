@@ -1,0 +1,23 @@
+div
+  div(class="row-fluid")
+    div(class="span12")
+      h5 Title
+      span(id="pubTitle") {{ publication.pubTitle }}
+      h5() Publisher
+      span(name='memberName') {{ publication.member.fullName }}
+      h5 Media Type 
+      span(name='pubMedia') {{ publication.pubMedium.mediaLabel }}
+      br
+      h5 Year Published
+      span(id="pubYear") {{ publication.pubYear }}
+      br
+      div(ng-visible="publication.pubNotes != ''")
+        h5 Notes
+        span(id="pubNotes") {{ publication.pubNotes }}
+      div(ng-visible="publication.industryIdentifiers.length > 0")
+        h5 Identifiers
+        div(ng-repeat='indId in publication.industryIdentifiers').row-fluid
+          div(class="row-fluid")
+            span(id="type-{{$index}}") {{ indId.type }}
+          div(class="row-fluid")
+            input(id="identifier-{{$index}}") {{ indId.identifier }}

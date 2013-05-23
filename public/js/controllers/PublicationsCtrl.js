@@ -1,8 +1,10 @@
 
-function PublicationsCtrl($scope, $http, $location) {
+function PublicationsCtrl($scope, $http, $location, $cookies) {
 
   $scope.$emit('changeTab');
   $scope.form = {};
+  $scope.loggedIn = !(typeof($cookies["alsbooks.loggedIn"]) === "undefined");
+
   $http.get('/api/publications', $scope.form).
     success(function(data) {
       $scope.publications = data;
@@ -61,6 +63,14 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
         });
     }
   }
+}
+
+function ViewPublicationCtrl ($scope, $http, $location, $routeParams) {
+    $http.get('/api/publications/view/' + $routeParams.memberId + '/' + $routeParams.pubId).
+      success(function(data) {
+        $scope.publication = data.publication;
+        $scope.pubMedia = data.pubMedia;
+      });
 }
 
 // }}}
