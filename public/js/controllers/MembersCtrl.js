@@ -27,8 +27,10 @@ function MembersCtrl($scope, $http, $location) {
     $http.get('/api/members/list/' + $scope.page + '/' + $scope.perPage).
       success(function(data) {
         $scope.members = data.members;
+
         $scope.membersTotal = data.membersTotal;
         $scope.memberHeader = "There " + ( $scope.membersTotal == 1 ? "is " : "are ") + ($scope.membersTotal > 0 ? $scope.membersTotal : "no") + " member" + ($scope.membersTotal != 1 ? "s." : ".");
+
         $scope.visiblePages = function() {
           var allPages = Math.ceil($scope.membersTotal / $scope.perPage);
           var visible = [];

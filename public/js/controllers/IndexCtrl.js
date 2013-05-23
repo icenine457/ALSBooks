@@ -47,8 +47,8 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
   });
 
   $scope.$on('login', function() {
-    $location.path('/publications');
     $scope.loggedIn = true;
+    $location.path('/publications');
   });
 
 });
