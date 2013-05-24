@@ -16,38 +16,44 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
 
-  $scope.tabs = {
-    login: {
-      navItem: "login",
-      navClass: "",
-      visible: true,
-    },
-    member: {
-      navItem: "members",
-      navClass: "",
-      visible: $scope.loggedIn
-    },
-    publications: {
-      navItem: "publications",
-      navClass: "",
-      visible: true,
-    },
-    webSearch: {
-      navItem: "webSearch",
-      navClass: "",
-    },
-    signup: {
-      navItem: "signup",
-      navClass: "",
-      visible: $scope.loggedIn
-    }
+	var generateTabs = function() {
+		return {
+			login: {
+				navItem: "login",
+				navClass: "",
+				visible: !$scope.loggedIn,
+			},
+			member: {
+				navItem: "members",
+				navClass: "",
+				visible: $scope.loggedIn,
+			},
+			publications: {
+				navItem: "publications",
+				navClass: "",
+				visible: true,
+			},
+			webSearch: {
+				navItem: "webSearch",
+				navClass: "",
+				visible: $scope.loggedIn,
+			},
+			signup: {
+				navItem: "signup",
+				navClass: "",
+				visible: $scope.loggedIn,
+			}
+		}
   }
+
+  $scope.tabs = generateTabs()
   $scope.$on('changeTab', function() {
     _.each($scope.tabs, $scope.getActiveTab)
   });
 
   $scope.$on('login', function() {
     $scope.loggedIn = true;
+		$scope.tabs = generateTabs()
     $location.path('/publications');
   });
 

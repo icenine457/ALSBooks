@@ -1,6 +1,6 @@
 div
   h3 Login
-  form.form-horizontal
+  form.form-horizontal(ng-submit='login()')
     .control-group
       label.control-label(for='inputEmail') Email
       .controls
@@ -13,5 +13,5 @@ div
       .controls
         label.checkbox Remember Me
           input(type='checkbox') 
-        button.btn(type='button', ng-click='login()') Sign in
+        button.btn(type='submit') Sign in
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

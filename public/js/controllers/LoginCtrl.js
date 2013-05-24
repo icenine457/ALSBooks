@@ -1,4 +1,4 @@
-function LoginCtrl($scope, $http, $location, $cookies) {
+function LoginCtrl($scope, $http, $location, $cookies, $rootScope) {
   $scope.$emit('changeTab');
   $scope.user = {
     password: "",
@@ -8,7 +8,7 @@ function LoginCtrl($scope, $http, $location, $cookies) {
     $http.post('/api/users/login', $scope.user).
       success(function(loggedIn) {
         if (loggedIn) {
-          $scope.$emit('login');
+          $rootScope.$broadcast('login');
         }
       })
   };
