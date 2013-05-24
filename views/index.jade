@@ -3,7 +3,7 @@ extends layout
 block body
   div(ng-controller="IndexCtrl", class="container-fluid")
     div(class="navbar")
-      div(class="navbar-inner",ng-cloak)
+      div(class="navbar-inner",ng-cloak="ng-cloak")
         h2
           a(href="/", ng-click="refreshTab") ALS Publication Tracker
         ul(class="nav nav-pills nav-stacked")
@@ -27,7 +27,6 @@ block body
   script(src='js/lib/bootstrap/bootstrap.js')
   script(src='js/lib/angular/angular.js')
   script(src='js/lib/angular/angular-cookies.js')
-  script(src='js/lib/angular-http-auth/src/http-auth-interceptor.js')
   script(src='js/lib/underscore-min.js')
   script(src='js/lib/angular-underscore.js')
   script(src='js/app.js')
