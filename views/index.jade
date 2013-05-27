@@ -21,6 +21,9 @@ block body
 
           li(ng-class='tabs.signup.navClass', ng-visible="tabs.signup.visible")
             a(href="/signup", eat-click, ng-click="refreshTab") Create Account
+
+          li(ng-visible="tabs.logout.visible")
+            a(href="javascript:", eat-click, ng-click="logout()") Log out
     div(ng-view)
 
   script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js')

@@ -16,34 +16,48 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
 
-	var generateTabs = function() {
-		return {
-			login: {
-				navItem: "login",
-				navClass: "",
-				visible: !$scope.loggedIn,
-			},
-			member: {
-				navItem: "members",
-				navClass: "",
-				visible: $scope.loggedIn,
-			},
-			publications: {
-				navItem: "publications",
-				navClass: "",
-				visible: true,
-			},
-			webSearch: {
-				navItem: "webSearch",
-				navClass: "",
-				visible: $scope.loggedIn,
-			},
-			signup: {
-				navItem: "signup",
-				navClass: "",
-				visible: $scope.loggedIn,
-			}
-		}
+  var generateTabs = function() {
+    return {
+      login: {
+        navItem: "login",
+        navClass: "",
+        visible: !$scope.loggedIn,
+      },
+      logout: {
+        navItem: "logout",
+        navClass: "",
+        visible: $scope.loggedIn,
+      },
+      member: {
+        navItem: "members",
+        navClass: "",
+        visible: $scope.loggedIn,
+      },
+      publications: {
+        navItem: "publications",
+        navClass: "",
+        visible: true,
+      },
+      webSearch: {
+        navItem: "webSearch",
+        navClass: "",
+        visible: $scope.loggedIn,
+      },
+      signup: {
+        navItem: "signup",
+        navClass: "",
+        visible: $scope.loggedIn,
+      }
+    }
+  }
+
+  $scope.logout = function() {
+    $http.post('/api/users/logout').
+      success(function() {
+        $scope.loggedIn = false;
+        $scope.tabs = generateTabs()
+        $location.path('/publications');
+      })
   }
 
   $scope.tabs = generateTabs()
@@ -53,7 +67,7 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
 
   $scope.$on('login', function() {
     $scope.loggedIn = true;
-		$scope.tabs = generateTabs()
+    $scope.tabs = generateTabs()
     $location.path('/publications');
   });
 

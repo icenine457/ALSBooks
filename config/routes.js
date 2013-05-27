@@ -23,6 +23,7 @@ module.exports = function(app, passport) {
   app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
 
   app.post('/api/users/login', passport.authenticate('local', {failureRedirect: '/api/users/loginFailed'}), users.session)
+  app.post('/api/users/logout', users.logout)
   app.get('/api/users/loginFailed', users.loginFailed);
   app.post('/api/users/create', users.create)
 
