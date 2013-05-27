@@ -18,53 +18,50 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
         };
 
         $scope.publicationsHeader = "There " + ( $scope.pubsTotal == 1 ? "is " : "are ") + ($scope.pubsTotal > 0 ? $scope.pubsTotal : "no") + " publication" + ($scope.pubsTotal != 1 ? "s." : ".");
+        $location.search({page: $scope.page, perPage: $scope.perPage})
 
-        $scope.visiblePages = function() {
-          var allPages = Math.ceil($scope.pubsTotal / $scope.perPage);
-          var visible = [];
-
-          // I weep for not having a .. method
-          if ($scope.page < 4) { return [0,1,2,3,4,5,6,7,8,9] };
-          for (var pppp = $scope.page - 4; pppp < $scope.page + 6; pppp++) {
-            if (pppp < allPages) visible.push(pppp);
-          }
-          return visible;
-        }
-        $scope.isPageSelected = function(page) {
-          if (page == $scope.page) {
-            return "active"
-          }
-        };
 
       });
 
   };
-  $scope.list()
 
-  var updatePageUrl = function() {
-      $location.path("/publications/" + $scope.page + "/" + $scope.perPage)
+  $scope.isPageSelected = function(page) {
+    if (page == $scope.page) {
+      return "active"
+    }
+  };
+  $scope.visiblePages = function() {
+    var allPages = Math.ceil($scope.pubsTotal / $scope.perPage);
+    var visible = [];
+
+    if ($scope.page < 4) { return [0,1,2,3,4,5,6,7,8,9] };
+    var pageMax = parseInt($scope.page) + 6;
+    var pageMin = $scope.page - 4;
+    for (var pppp = pageMin; pppp < pageMax; pppp++) {
+      if (pppp < allPages) visible.push(pppp);
+    }
+    return visible;
   }
+
+  $scope.list()
 
   $scope.navPage = function(page) {
     if ($scope.page == page) return;
     $scope.skip = page * $scope.perPage;
     $scope.page = page;
     $scope.list();
-    updatePageUrl();
   };
   $scope.nextPage = function() {
-    if ($scope.page == Math.ceil($scope.membersTotal / $scope.perPage)) return;
+    if ($scope.page == Math.ceil($scope.pubsTotal / $scope.perPage)) return;
     ++$scope.page
     $scope.skip = $scope.page * $scope.perPage;
     $scope.list();
-    updatePageUrl();
   };
   $scope.prevPage = function() {
     if ($scope.page == 0) return;
     --$scope.page
     $scope.skip = $scope.page * $scope.perPage;
     $scope.list();
-    updatePageUrl();
   };
 };
 
