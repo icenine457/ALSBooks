@@ -16,6 +16,9 @@ div
       br
       label(for='pubNotes') Notes
       textarea(ng-model='publication.pubNotes', name="pubNotes")
+      br
+      label(for='pubVerified') Verified?
+      input(type="checkbox", ng-model='publication.verified', name="pubVerified")
       h5 Identifiers
         span(style="display: inline-block;")
           button(ng-click="addPubIdentifier()", type="button").offset2.btn.btn-small.btn-primary Add
