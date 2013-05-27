@@ -11,7 +11,6 @@ div
         input#inputPassword(type='password', placeholder='Password', ng-model='user.password')
     .control-group
       .controls
-        label.checkbox Remember Me
-          input(type='checkbox') 
+        div(ng-visible='errors != null', ng-model='errors') {{ errors }}
         button.btn(type='submit') Sign in
 //  vim: set ft=jade et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
