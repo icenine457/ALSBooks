@@ -5,7 +5,8 @@ div
     table.table.table-hover
       thead
         tr
-          th Title
+          th
+            a(href="javascript:", ng-click="sortBy('pubTitle')") Title
           th Member Name
           th Induction Year
           th Year Published
