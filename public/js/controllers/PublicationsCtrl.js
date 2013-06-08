@@ -14,8 +14,65 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
 
   $scope.orderByTable[$scope.orderBy] = $scope.orderByDir;
 
+  // TODO: Retrieve from API
+  $scope.searchTerms = [
+    { field: "pubTitle",             label: "Publication Title", selected: true},
+    { field: "member.fullName",      label: "Member Name" },
+    { field: "pubYear",              label: "Publication Year" },
+    { field: "pubMedium.mediaLabel", label: "Publication Media"}
+  ]
+
+  $scope.updateTerm = function() {
+    _.each($scope.searchTerms, function(term) {
+    });
+  }
+
+  $scope.selectTerm = function(selectedTerm) {
+    _.each($scope.searchTerms, function(term) {
+      term.selected = (term.label == selectedTerm.label || term.field == selectedTerm.field);
+    });
+  }
+
+  $scope.searchQuery = '';
+  $scope.isSearching = false;
+
+  $scope.search = function() {
+    $scope.isSearching = true;
+    $scope.page = 0;
+    $scope.perPage = 10;
+    $scope.doSearch();
+  }
+
+  $scope.currentSearchTerm = function() {
+    return _.find($scope.searchTerms, function(term) {
+      return term.selected;
+    });
+  }
+
+  $scope.doSearch = function() {
+    var query = {
+      page: $scope.page,
+      perPage: $scope.perPage,
+      orderBy: $scope.orderBy,
+      orderByDir: $scope.orderByDir,
+    };
+    if ($scope.isSearching && $scope.searchQuery != '') {
+      query.searchBy = encodeURIComponent($scope.currentSearchTerm().field);
+      query.q = encodeURIComponent($scope.searchQuery);
+    }
+    $location.search(query)
+  }
+
   $scope.list = function() {
-    $http.get('/api/publications/list/' + $scope.page + '/' + $scope.perPage + '/' + $scope.orderBy + '/' + $scope.orderByDir).
+    var getUrl = '/api/publications/list/' + $scope.page + '/' + $scope.perPage + '/' + $scope.orderBy + '/' + $scope.orderByDir;
+    if ($routeParams.searchBy && $routeParams.q ) {
+      $scope.isSearching = true;
+      $scope.searchQuery =  $routeParams.q;
+      $scope.selectTerm({field: $routeParams.searchBy});
+      getUrl = getUrl + '/' + encodeURIComponent($routeParams.searchBy) + '/' + encodeURIComponent($routeParams.q)
+    };
+
+    $http.get(getUrl).
       success(function(data) {
         $scope.publications = data.publications;
         $scope.pubsTotal = data.pubsTotal;
@@ -39,9 +96,16 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
     var allPages = Math.ceil($scope.pubsTotal / $scope.perPage);
     var visible = [];
 
-    if ($scope.page < 4) { return [0,1,2,3,4,5,6,7,8,9] };
-    var pageMax = parseInt($scope.page) + 6;
-    var pageMin = $scope.page - 4;
+    if (allPages == 10) { return [0,1,2,3,4,5,6,7,8,9] };
+    if (allPages < 10) {
+      for (var pppp = 0; pppp < allPages; pppp++) {
+        visible.push(pppp);
+      }
+      return visible;
+    };
+
+    var pageMax = ( $scope.page < 6 ? 10 : $scope.page + 5);
+    var pageMin = ( $scope.page > 4 ? $scope.page - 4 : 0);
     for (var pppp = pageMin; pppp < pageMax; pppp++) {
       if (pppp < allPages) visible.push(pppp);
     }
@@ -52,9 +116,6 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
     $scope.list();
   }
 
-  $scope.doSearch = function() {
-    $location.search({page: $scope.page, perPage: $scope.perPage, orderBy: $scope.orderBy, orderByDir: $scope.orderByDir })
-  }
 
   $scope.navPage = function(page) {
     if ($scope.page == page) return;

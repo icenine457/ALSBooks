@@ -1,6 +1,18 @@
 div
-  h2 Publications
-  p {{ publicationsHeader }}
+  div.row-fluid
+    div.span4
+      h2 Publications
+      p {{ publicationsHeader }}
+    div.span3.offset5
+      form(ng-submit="search()").form-search
+        input(type="text",ng-model="searchQuery").input-medium.search-query
+        div.btn-group
+          a.btn-small.dropdown-toggle(data-toggle='dropdown', href='#') {{ currentSearchTerm().label }}
+            span.caret
+          ul(ng-repeat='term in searchTerms').dropdown-menu
+            li(ng-repeat='term in searchTerms')
+              a(ng-click="selectTerm(term)") {{ term.label }}
+        button(type="submit").btn Search
   div(ng-visible="publications.length > 0")
     table.table.table-hover
       thead
@@ -8,7 +20,6 @@ div
           th
             a(href="javascript:", ng-click="sortBy('pubTitle')") Title
           th Member Name
-          th Induction Year
           th Year Published
           th Medium
           th Notes
@@ -19,7 +30,6 @@ div
         td
           a(ng-visible="loggedIn",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
           span(ng-visible="!loggedIn") {{publication.member.fullName}}
-        td {{publication.member.inductionYear}}
         td {{publication.pubYear}}
         td {{publication.pubMedium.mediaLabel}}
         td {{publication.pubNotes}}

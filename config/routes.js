@@ -18,6 +18,7 @@ module.exports = function(app, passport) {
   app.post('/api/publications/save/:memberId/:pubId', publications.save);
   app.put('/api/publications/create/:memberId', publications.create);
   app.get('/api/publications/list/:page/:perPage/:orderBy/:orderByDir', publications.list);
+  app.get('/api/publications/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', publications.list);
   app.put('/api/publications/import/:memberId', publications.import);
 
   app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
