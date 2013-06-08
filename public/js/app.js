@@ -7,6 +7,7 @@ var modules = [
   'alsbooks.directives',
   'angular-underscore',
   'ngCookies',
+  'ngRoute',
   'ui.bootstrap',
 ]
 var alsbooks = angular.module('alsbooks', modules).

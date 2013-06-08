@@ -5,7 +5,7 @@ div
       h4(ng-visible="!isNew") Editing {{ publication.pubTitle }}
       h5(ng-visible="!isNew") Publisher: {{ publication.member.fullName }}
       label(for='pubMedia') Publication Medium
-      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p identify by p._id as p.mediaLabel for p in pubMedia")
+      select(name='pubMedia', ng-model="publication.pubMedium", ng-options="p as p.mediaLabel for p in pubMedia track by p._id")
         option(value="") Choose a media type
       br
       label(for='pubTitle') Publication Title

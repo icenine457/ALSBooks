@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.1.2-2d111051
+ * @license AngularJS v1.1.6-4eaaf9f
  * (c) 2010-2012 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -10,6 +10,25 @@
  * @ngdoc overview
  * @name ngSanitize
  * @description
+ * 
+ * The `ngSanitize` module provides functionality to sanitize HTML.
+ * 
+ * # Installation
+ * As a separate module, it must be loaded after Angular core is loaded; otherwise, an 'Uncaught Error:
+ * No module: ngSanitize' runtime error will occur.
+ *
+ * <pre>
+ *   <script src="angular.js"></script>
+ *   <script src="angular-sanitize.js"></script>
+ * </pre>
+ *
+ * # Usage
+ * To make sure the module is available to your application, declare it as a dependency of you application
+ * module.
+ *
+ * <pre>
+ *   angular.module('app', ['ngSanitize']);
+ * </pre>
  */
 
 /*
@@ -422,6 +441,7 @@ angular.module('ngSanitize').directive('ngBindHtml', ['$sanitize', function($san
     });
   };
 }]);
+
 /**
  * @ngdoc filter
  * @name ngSanitize.filter:linky
@@ -552,5 +572,6 @@ angular.module('ngSanitize').filter('linky', function() {
     return html.join('');
   };
 });
+
 
 })(window, window.angular);
