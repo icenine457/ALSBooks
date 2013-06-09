@@ -26,6 +26,10 @@ var alsbooks = angular.module('alsbooks', modules).
         templateUrl: 'partials/signup',
         controller: SignupCtrl
       }).
+      when('/publications/new/:memberId', {
+        templateUrl: 'partials/editPublication',
+        controller: EditPublicationCtrl
+      }).
       when('/publications', {
         templateUrl: 'partials/publications',
         controller: ListCtrl
@@ -59,10 +63,6 @@ var alsbooks = angular.module('alsbooks', modules).
       }).
       when('/publications/edit/:memberId/:pubId/modal', {
         templateUrl: 'partials/modals/editPublication',
-        controller: EditPublicationCtrl
-      }).
-      when('/publications/new/:memberId', {
-        templateUrl: 'partials/editPublication',
         controller: EditPublicationCtrl
       }).
       when('/webSearch/google/:memberId', {
