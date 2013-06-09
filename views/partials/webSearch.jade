@@ -17,11 +17,13 @@ div(ng-controller="SearchCtrl")
     thead
       tr
         th Member Name
+        th E-mail
         th
           img(src='img/google.png')
     tr(ng-repeat='member in members')
       td
         a(href='members/{{member._id}}') {{member.fullName}}
+      td {{member.emailAddresses[0]}}
       td
         button(ng-visible="!(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link Search
         button(ng-visible="(searchProviders.google.hasBeenSearched(member))", ng-click="searchProviders.google.search(member)").btn.btn-mini.btn-link {{ getDate(member.googleSearched).toDateString() }}

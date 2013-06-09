@@ -19,9 +19,12 @@ div(ng-controller="PublicationsCtrl")
         tr
           th
             a(href="javascript:", ng-click="sortBy('pubTitle')") Title
-          th Member Name
-          th Year Published
-          th Medium
+          th
+            a(href="javascript:", ng-click="sortBy('member.fullName')") Member Name
+          th
+            a(href="javascript:", ng-click="sortBy('pubYear')") Year Published
+          th
+            a(href="javascript:", ng-click="sortBy('pubMedium.mediaLabel')") Medium
           th Notes
       tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
         td

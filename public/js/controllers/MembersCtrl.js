@@ -6,7 +6,8 @@ function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
   // TODO: Retrieve from API
   $scope.setSearchTerms([
-    { field: "fullName",             label: "Member Name", selected: true}
+    { field: "fullName", label: "Member Name", selected: true},
+    { field: "emailAddresses",    label: "E-mail Address" }
   ]);
 
 

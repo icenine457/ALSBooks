@@ -41,8 +41,6 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
     $scope.list();
   }
 
-
-
 };
 
 function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
