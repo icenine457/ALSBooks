@@ -1,5 +1,18 @@
-div()
-  h2 Web Search
+div(ng-controller="SearchCtrl")
+  div.row-fluid
+    div.span4
+      h2 Web Search
+      p {{ memberHeader }}
+    div.span3.offset5
+      form(ng-submit="search(searchQuery)").form-search
+        input(type="text",ng-model="searchQuery").input-medium.search-query
+        div.btn-group
+          a.btn-small.dropdown-toggle(data-toggle='dropdown', href='#') {{ currentSearchTerm().label }}
+            span.caret
+          ul(ng-repeat='term in searchTerms').dropdown-menu
+            li(ng-repeat='term in searchTerms')
+              a(ng-click="selectTerm(term)") {{ term.label }}
+        button(type="submit").btn Search
   table(ng-visible="members.length > 0").table.table-hover
     thead
       tr

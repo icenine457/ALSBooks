@@ -28,22 +28,22 @@ var alsbooks = angular.module('alsbooks', modules).
       }).
       when('/publications', {
         templateUrl: 'partials/publications',
-        controller: PublicationsCtrl
+        controller: ListCtrl
       }).
       when('/publications/:page/:perPage', {
         templateUrl: 'partials/publications',
-        controller: PublicationsCtrl
+        controller: ListCtrl
       }).
       when('/importMembers', {
         templateUrl: 'partials/importMembers'
       }).
       when('/members', {
         templateUrl: 'partials/viewMembers',
-        controller: MembersCtrl
+        controller: ListCtrl
       }).
       when('/members/:page/:perPage', {
         templateUrl: 'partials/viewMembers',
-        controller: MembersCtrl
+        controller: ListCtrl
       }).
       when('/members/:id', {
         templateUrl: 'partials/editMember',
@@ -71,7 +71,7 @@ var alsbooks = angular.module('alsbooks', modules).
       }).
       when('/webSearch', {
         templateUrl: 'partials/webSearch',
-        controller: SearchCtrl
+        controller: ListCtrl
       }).
       otherwise({
         redirectTo: '/'

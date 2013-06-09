@@ -1,10 +1,10 @@
-div
+div(ng-controller="PublicationsCtrl")
   div.row-fluid
     div.span4
       h2 Publications
       p {{ publicationsHeader }}
     div.span3.offset5
-      form(ng-submit="search()").form-search
+      form(ng-submit="search(searchQuery)").form-search
         input(type="text",ng-model="searchQuery").input-medium.search-query
         div.btn-group
           a.btn-small.dropdown-toggle(data-toggle='dropdown', href='#') {{ currentSearchTerm().label }}

@@ -1,78 +1,39 @@
-function ImportMemberCtrl($scope, $http, $location) {
-  $scope.$emit('changeTab');
-  $scope.form = {};
-  $scope.successCount = 0;
-  $scope.error = '';
-  $scope.uploadImport = function() {
-    var file = document.getElementById("importMembersCsv").files[0];
-    var reader = new FileReader();
-    reader.onloadend = function(thisFile) {
-      $http.post('/api/importMembers', thisFile).
-        success(function(data) {
-          $location.path('/members');
-        }).
-        error(function(data) {
-          $scope.error = data.error;
-        });
-    };
-    reader.readAsText(file)
-  };
-};
+function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
-function MembersCtrl($scope, $http, $location, $routeParams) {
   $scope.$emit('changeTab');
-  $scope.page = ( ( $routeParams.page === undefined || isNaN($routeParams.page)) ? 0 : $routeParams.page )
-  $scope.perPage = ( ( $routeParams.perPage === undefined || isNaN($routeParams.perPage)) ? 10 : $routeParams.perPage )
+  $scope.setOrderBy(!$routeParams.orderBy ? 'fullName' : $routeParams.orderBy);
+  $scope.orderByTable[$scope.orderBy] = $scope.orderByDir;
+
+  // TODO: Retrieve from API
+  $scope.setSearchTerms([
+    { field: "fullName",             label: "Member Name", selected: true}
+  ]);
+
+
   $scope.list = function() {
-    $http.get('/api/members/list/' + $scope.page + '/' + $scope.perPage).
+    var getUrl = '/api/members/list/' + $scope.page + '/' + $scope.perPage + '/' + $scope.orderBy + '/' + $scope.orderByDir;
+    if ($routeParams.searchBy && $routeParams.q ) {
+      $scope.isSearching = true;
+      $scope.searchQuery =  $routeParams.q;
+      $scope.selectTerm({field: $routeParams.searchBy});
+      getUrl = getUrl + '/' + encodeURIComponent($routeParams.searchBy) + '/' + encodeURIComponent($routeParams.q)
+    };
+
+    $http.get(getUrl).
       success(function(data) {
         $scope.members = data.members;
+        $scope.setTotalEntities(data.membersTotal);
 
-        $scope.membersTotal = data.membersTotal;
-        $scope.memberHeader = "There " + ( $scope.membersTotal == 1 ? "is " : "are ") + ($scope.membersTotal > 0 ? $scope.membersTotal : "no") + " member" + ($scope.membersTotal != 1 ? "s." : ".");
-        $location.search({page: $scope.page, perPage: $scope.perPage})
+        $scope.memberHeader = "There " + ( $scope.totalEntities == 1 ? "is " : "are ") + ($scope.totalEntities > 0 ? $scope.totalEntities : "no") + " member" + ($scope.totalEntities != 1 ? "s." : ".");
 
       });
-    }
 
-  $scope.visiblePages = function() {
-    var allPages = Math.ceil($scope.membersTotal / $scope.perPage);
-    var visible = [];
+  };
 
-    if ($scope.page < 4) { return [0,1,2,3,4,5,6,7,8,9] };
-    var pageMax = parseInt($scope.page) + 6;
-    var pageMin = $scope.page - 4;
-    for (var pppp = pageMin; pppp < pageMax; pppp++) {
-      if (pppp < allPages) visible.push(pppp);
-    }
-    return visible;
+  if (!$scope.members) {
+    $scope.list();
   }
-  $scope.isPageSelected = function(page) {
-    if (page == $scope.page) {
-      return "active"
-    }
-  };
 
-  $scope.list();
-
-  $scope.navPage = function(page) {
-    if ($scope.page == page) return;
-    $scope.skip = page * $scope.perPage;
-    $scope.page = page;
-    $scope.list();
-  };
-  $scope.nextPage = function() {
-    if ($scope.page == Math.ceil($scope.membersTotal / $scope.perPage)) return;
-    ++$scope.page
-    $scope.skip = $scope.page * $scope.perPage;
-    $scope.list();
-  };
-  $scope.prevPage = function() {
-    if ($scope.page == 0) return;
-    --$scope.page
-    $scope.skip = $scope.page * $scope.perPage;
-    $scope.list();
-  };
 };
 
 function EditMemberCtrl($scope, $http, $location, $routeParams) {
@@ -124,4 +85,25 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   }
 
 
+};
+
+function ImportMemberCtrl($scope, $http, $location) {
+  $scope.$emit('changeTab');
+  $scope.form = {};
+  $scope.successCount = 0;
+  $scope.error = '';
+  $scope.uploadImport = function() {
+    var file = document.getElementById("importMembersCsv").files[0];
+    var reader = new FileReader();
+    reader.onloadend = function(thisFile) {
+      $http.post('/api/importMembers', thisFile).
+        success(function(data) {
+          $location.path('/members');
+        }).
+        error(function(data) {
+          $scope.error = data.error;
+        });
+    };
+    reader.readAsText(file)
+  };
 };

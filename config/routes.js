@@ -6,7 +6,8 @@ var mongoose = require('mongoose')
 
 module.exports = function(app, passport) {
 
-  app.get('/api/members/list/:page/:perPage', members.list);
+  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir', members.list);
+  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', members.list);
   app.post('/api/importMembers', members.import);
   app.get('/api/members/edit/:memberId', members.edit);
   app.put('/api/members/save/:memberId', members.save);
