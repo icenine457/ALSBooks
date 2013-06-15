@@ -2,9 +2,9 @@ function ListCtrl($scope, $http, $location, $cookies, $routeParams) {
 
   $scope.form = {};
   $scope.loggedIn = !(typeof($cookies["alsbooks.loggedIn"]) === "undefined");
-  $scope.page = ( ( $routeParams.page === undefined || isNaN($routeParams.page)) ? 0 : $routeParams.page )
-  $scope.perPage = ( ( $routeParams.perPage === undefined || isNaN($routeParams.perPage)) ? 10 : $routeParams.perPage )
-  $scope.orderByDir = ( ( $routeParams.orderByDir === undefined || isNaN($routeParams.orderByDir)) ? 1 : $routeParams.orderByDir )
+  $scope.page = $routeParams.page === undefined || isNaN($routeParams.page) ? 0 : $routeParams.page
+  $scope.perPage = $routeParams.perPage === undefined || isNaN($routeParams.perPage) ? 10 : $routeParams.perPage
+  $scope.orderByDir = $routeParams.orderByDir === undefined || isNaN($routeParams.orderByDir) ? 1 : $routeParams.orderByDir 
   $scope.orderByTable = {}
 
   $scope.updateTerm = function() {
@@ -20,8 +20,8 @@ function ListCtrl($scope, $http, $location, $cookies, $routeParams) {
     $scope.orderBy = orderBy;
   };
 
-  $scope.searchQuery = '';
-  $scope.isSearching = false;
+  $scope.searchQuery = $routeParams.q === undefined ? '' : $routeParams.q;
+  $scope.isSearching = $routeParams.q ? true : false;
 
 
   $scope.setSearchTerms = function(terms) {
