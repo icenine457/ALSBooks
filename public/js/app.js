@@ -73,6 +73,10 @@ var alsbooks = angular.module('alsbooks', modules).
         templateUrl: 'partials/webSearch',
         controller: ListCtrl
       }).
+      when('/contact', {
+        templateUrl: 'partials/contact',
+        controller: ContactCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });

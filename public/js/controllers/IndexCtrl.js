@@ -16,6 +16,7 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
     $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
   };
 
+  // TODO: Retrieve from server-side API
   var generateTabs = function() {
     return {
       login: {
@@ -47,6 +48,11 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies) {
         navItem: "signup",
         navClass: "",
         visible: $scope.loggedIn,
+      },
+      contact: {
+        navItem: "contact",
+        navClass: "",
+        visible: true,
       }
     }
   }

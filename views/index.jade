@@ -24,6 +24,9 @@ block body
 
           li(ng-visible="tabs.logout.visible")
             a(href="javascript:", eat-click, ng-click="logout()") Log out
+
+          li(ng-class='tabs.contact.navClass', ng-visible="tabs.contact.visible")
+            a(href="/contact", eat-click, ng-click="refreshTab") Contact Us
     div(ng-view)
 
   script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js')
@@ -36,6 +39,7 @@ block body
   script(src='js/components/angular-underscore.js')
   script(src='js/app.js')
   script(src='js/services.js')
+  script(src='js/controllers/ContactCtrl.js')
   script(src='js/controllers/IndexCtrl.js')
   script(src='js/controllers/LandingCtrl.js')
   script(src='js/controllers/LoginCtrl.js')

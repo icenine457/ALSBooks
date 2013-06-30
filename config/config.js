@@ -5,7 +5,13 @@ module.exports = {
       name: 'ALS Books'
     },
     db: 'mongodb://localhost/alsBooks',
-    googleApiKey: 'AIzaSyDrgLtAS6CBk9nw_6fnOlog_z2wfjLEHzU'
+    googleApiKey: 'AIzaSyDrgLtAS6CBk9nw_6fnOlog_z2wfjLEHzU',
+    contactDetails: {
+      user:     "archibaldrumsfeld@gmail.com",
+      password: "pnnAMA!@#",
+      host:     "smtp.gmail.com",
+      ssl:      true,
+    }
   }
   , test: {
 
