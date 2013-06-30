@@ -92,8 +92,8 @@ function ListCtrl($scope, $http, $location, $cookies, $routeParams) {
       orderByDir: $scope.orderByDir,
     };
     if ($scope.isSearching && $scope.searchQuery != '') {
-      query.searchBy = encodeURIComponent($scope.currentSearchTerm().field);
-      query.q = encodeURIComponent($scope.searchQuery);
+      query.searchBy = $scope.currentSearchTerm().field;
+      query.q = $scope.searchQuery;
     }
     $location.search(query)
   }
