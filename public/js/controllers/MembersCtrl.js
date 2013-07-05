@@ -74,10 +74,21 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
 
   };
   $scope.editMember = function() {
-    $http.put('/api/members/save/' + $routeParams.id, $scope.member).
-      success(function(data) {
+    $http.put('/api/members/save/' + $routeParams.id, $scope.member)
+      .success(function(data) {
         $location.path('/members');
       });
+  };
+
+  $scope.archive = function() {
+    $http.delete('/api/members/archive/' + $scope.member._id)
+      .success(function(data) {
+        console.log("DELETED");
+      })
+      .error(function(err) {
+        console.error("WTF:" + JSON.stringify(err)); 
+      });
+
   };
 
 
