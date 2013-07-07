@@ -9,7 +9,6 @@ module.exports = function(app, passport) {
   var contact = require('../lib/controllers/contact');
   app.post('/api/contact', contact.send);
 
-
   app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir', members.list);
   app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', members.list);
   app.post('/api/importMembers', members.import);
