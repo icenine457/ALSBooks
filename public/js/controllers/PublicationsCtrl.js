@@ -1,4 +1,4 @@
-function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
+function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, $auth) {
 
   $scope.$emit('changeTab');
   $scope.setOrderBy(!$routeParams.orderBy ? 'pubTitle' : $routeParams.orderBy);

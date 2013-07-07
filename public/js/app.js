@@ -11,7 +11,7 @@ var modules = [
   'ui.bootstrap',
 ]
 var alsbooks = angular.module('alsbooks', modules).
-  config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+  config(['$routeProvider', '$locationProvider', '$authProvider', function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider.
       when('/', {

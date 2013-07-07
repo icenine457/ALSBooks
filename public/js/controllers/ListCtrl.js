@@ -1,7 +1,7 @@
-function ListCtrl($scope, $http, $location, $cookies, $routeParams) {
+function ListCtrl($scope, $http, $location, $cookies, $routeParams, $auth) {
 
   $scope.form = {};
-  $scope.loggedIn = !(typeof($cookies["alsbooks.loggedIn"]) === "undefined");
+  $scope.loggedIn = $auth.isLoggedIn();
   $scope.page = $routeParams.page === undefined || isNaN($routeParams.page) ? 0 : $routeParams.page
   $scope.perPage = $routeParams.perPage === undefined || isNaN($routeParams.perPage) ? 10 : $routeParams.perPage
   $scope.orderByDir = $routeParams.orderByDir === undefined || isNaN($routeParams.orderByDir) ? 1 : $routeParams.orderByDir 
