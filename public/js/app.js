@@ -11,7 +11,7 @@ var modules = [
   'ui.bootstrap',
 ]
 var alsbooks = angular.module('alsbooks', modules).
-  config(['$routeProvider', '$locationProvider', '$authProvider', function($routeProvider, $locationProvider) {
+  config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider.
       when('/', {
@@ -38,7 +38,7 @@ var alsbooks = angular.module('alsbooks', modules).
         templateUrl: 'partials/publications',
         controller: ListCtrl
       }).
-      when('/importMembers', {
+      when('/members/import', {
         templateUrl: 'partials/importMembers'
       }).
       when('/members', {

@@ -1,4 +1,4 @@
-function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, $auth) {
+function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
 
   $scope.$emit('changeTab');
   $scope.setOrderBy(!$routeParams.orderBy ? 'pubTitle' : $routeParams.orderBy);
@@ -15,6 +15,7 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, $aut
 
   $scope.list = function() {
     var getUrl = '/api/publications/list/' + $scope.page + '/' + $scope.perPage + '/' + $scope.orderBy + '/' + $scope.orderByDir;
+
     if ($routeParams.searchBy && $routeParams.q ) {
       $scope.isSearching = true;
       $scope.searchQuery =  $routeParams.q;
@@ -36,6 +37,10 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, $aut
       });
 
   };
+
+  $scope.$on('logout', function() {
+    $scope.loggedIn = false;
+  });
 
   if (!$scope.publications) {
     $scope.list();

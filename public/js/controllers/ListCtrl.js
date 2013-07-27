@@ -1,7 +1,7 @@
-function ListCtrl($scope, $http, $location, $cookies, $routeParams, $auth) {
+function ListCtrl($scope, $http, $location, $cookies, $routeParams, auth) {
 
   $scope.form = {};
-  $scope.loggedIn = $auth.isLoggedIn();
+  $scope.loggedIn = auth.isLoggedIn();
   $scope.page = $routeParams.page === undefined || isNaN($routeParams.page) ? 0 : $routeParams.page
   $scope.perPage = $routeParams.perPage === undefined || isNaN($routeParams.perPage) ? 10 : $routeParams.perPage
   $scope.orderByDir = $routeParams.orderByDir === undefined || isNaN($routeParams.orderByDir) ? 1 : $routeParams.orderByDir 
@@ -97,6 +97,10 @@ function ListCtrl($scope, $http, $location, $cookies, $routeParams, $auth) {
     }
     $location.search(query)
   }
+
+  $scope.$on('logout', function() {
+    $scope.loggedIn = false;
+  });
 
   $scope.visiblePages = function() {
     var allPages = Math.ceil($scope.totalEntities / $scope.perPage);

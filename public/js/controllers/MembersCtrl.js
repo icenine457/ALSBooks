@@ -80,13 +80,14 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
       });
   };
 
+  // TODO: Some form of notification would be nice
   $scope.archive = function() {
     $http.delete('/api/members/archive/' + $scope.member._id)
       .success(function(data) {
         console.log("DELETED");
       })
       .error(function(err) {
-        console.error("WTF:" + JSON.stringify(err)); 
+        console.error("WTF:" + JSON.stringify(err));
       });
 
   };
@@ -108,7 +109,7 @@ function ImportMemberCtrl($scope, $http, $location) {
     var file = document.getElementById("importMembersCsv").files[0];
     var reader = new FileReader();
     reader.onloadend = function(thisFile) {
-      $http.post('/api/importMembers', thisFile).
+      $http.post('/api/members/import', thisFile).
         success(function(data) {
           $location.path('/members');
         }).

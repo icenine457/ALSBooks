@@ -1,29 +1,40 @@
 var abilities = [
 {
-  label: 'canViewMembers',
+  title: 'canViewMembers',
+  label: "View Members",
   permissions: {
     'api/members': [ 'read' ]
   }
 },
 {
-  label: 'canEditMembers',
+  title: 'canEditMembers',
+  label: "Edit Members",
   permissions: {
-    'api/members': [ 'read', 'write' ]
+    'api/members': [ 'read', 'write' ],
   }
 },
 {
-  label: 'canWebSearch',
+  title: 'canWebSearch',
+  label: "Web Search",
   permissions: {
-    'api/webSearch': [ 'read', 'write' ]
+    'api/webSearch': [ 'read', 'write' ],
+    'api/publications': [ 'read', 'write' ]
   }
 },
 {
-  label: 'canEditPublications',
+  title: 'canEditPublications',
+  label: "Edit Publications",
   permissions: {
     'api/publications': [ 'read', 'write' ]
   }
 },
+{
+  title: 'canManageUsers',
+  label: "Manage Users",
+  permissions: {
+    'api/manageUsers': [ 'read', 'write' ]
+  }
+},
 ]
-abilities.forEach(function(ability) {
-  db.abilities.insert(ability);
-});
+db.abilities.drop();
+db.abilities.insert(abilities)
