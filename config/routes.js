@@ -11,19 +11,20 @@ module.exports = function(app, passport) {
   app.post('/api/contact', contact.send);
 
   //Members
-  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir', members.list);
-  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', members.list);
-  app.post('/api/members/import', members.import);
-  app.get('/api/members/edit/:memberId', members.edit);
-  app.put('/api/members/save/:memberId', members.save);
+  var middleware = [ users.hasAbility ]
+  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir', users.hasAbility, members.list);
+  app.get('/api/members/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', users.hasAbility, members.list);
+  app.post('/api/members/import', middleware, members.import);
+  app.get('/api/members/edit/:memberId', middleware, members.edit);
+  app.put('/api/members/save/:memberId', middleware, members.save);
   app.delete('/api/members/archive/:memberId', members.archive);
 
   // Publications
   var publications = require('../lib/controllers/publications');
   app.get('/api/publications/new/:memberId', publications.new);
-  app.get('/api/publications/edit/:memberId/:pubId', publications.get);
-  app.get('/api/publications/view/:memberId/:pubId', publications.get);
-  app.post('/api/publications/save/:memberId/:pubId', publications.save);
+  app.get('/api/publications/edit/:memberId/:pubId', middleware, publications.get);
+  app.get('/api/publications/view/:memberId/:pubId', middleware, publications.get);
+  app.post('/api/publications/save/:memberId/:pubId', middleware, publications.save);
   app.put('/api/publications/create/:memberId', publications.create);
   app.get('/api/publications/list/:page/:perPage/:orderBy/:orderByDir', publications.list);
   app.get('/api/publications/list/:page/:perPage/:orderBy/:orderByDir/:searchBy/:q', publications.list);

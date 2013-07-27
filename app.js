@@ -14,6 +14,13 @@ var env = process.env.NODE_ENV || 'development'
   , auth = require('./config/middlewares/authorization')
   , mongoose = require('mongoose')
 
+
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
+
 mongoose.connect(config.db)
 
 var modelsPath = __dirname + '/lib/models'

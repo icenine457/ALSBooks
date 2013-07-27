@@ -28,11 +28,11 @@ div(ng-controller="PublicationsCtrl")
           th Notes
       tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
         td
-          a(ng-visible="loggedIn", href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
-          a(ng-visible="!loggedIn", href='/publications/view/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          a(ng-visible="canEditPubs", href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          a(ng-visible="!canEditPubs", href='/publications/view/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
         td
-          a(ng-visible="loggedIn",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
-          span(ng-visible="!loggedIn") {{publication.member.fullName}}
+          a(ng-visible="canEditMembers",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
+          span(ng-visible="!canEditMembers") {{publication.member.fullName}}
         td {{publication.pubYear}}
         td {{publication.pubMedium.mediaLabel}}
         td {{publication.pubNotes}}

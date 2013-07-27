@@ -1,4 +1,4 @@
-function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
+function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth) {
 
   $scope.$emit('changeTab');
   $scope.setOrderBy(!$routeParams.orderBy ? 'pubTitle' : $routeParams.orderBy);
@@ -37,9 +37,18 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams) {
       });
 
   };
+  $scope.canEditPubs = auth.hasAbility('canEditPublications');
+  $scope.canEditMembers = auth.hasAbility('canEditMembers');
+
+  $scope.$on('login', function() {
+    $scope.canEditPubs = auth.hasAbility('canEditPublications');
+    $scope.canEditMembers = auth.hasAbility('canEditMembers');
+  });
 
   $scope.$on('logout', function() {
-    $scope.loggedIn = false;
+    console.log("HI");
+    $scope.canEditPubs = auth.hasAbility('canEditPublications');
+    $scope.canEditMembers = auth.hasAbility('canEditMembers');
   });
 
   if (!$scope.publications) {
@@ -70,13 +79,19 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
       success(function(data) {
         $scope.publication = data.publication;
         $scope.pubMedia = data.pubMedia;
-      });
+      })
+      .error(function() {
+        $location.path("/publications");
+      })
 
     $scope.savePublication = function() {
       $http.post('/api/publications/save/' + $routeParams.memberId + '/' + $routeParams.pubId, $scope.publication).
         success(function(data) {
           window.history.back()
-        });
+        })
+        .error(function() {
+          $location.path("/publications");
+        })
     }
   }
   else {
@@ -85,13 +100,19 @@ function EditPublicationCtrl ($scope, $http, $location, $routeParams) {
         $scope.publication = data.publication;
         $scope.pubMedia = data.pubMedia;
         $scope.isNew = true;
-      });
+      })
+      .error(function() {
+        $location.path("/publications");
+      })
 
     $scope.savePublication = function() {
         $http.put('/api/publications/create/' + $routeParams.memberId, $scope.publication).
         success(function(data) {
           window.history.back()
-        });
+        })
+        .error(function() {
+          $location.path("/publications");
+        })
     }
   }
 }
@@ -101,7 +122,10 @@ function ViewPublicationCtrl ($scope, $http, $location, $routeParams) {
       success(function(data) {
         $scope.publication = data.publication;
         $scope.pubMedia = data.pubMedia;
-      });
+      })
+      .error(function() {
+        $location.path("/publications");
+      })
 }
 
 // }}}

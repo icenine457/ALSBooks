@@ -12,7 +12,22 @@ alsbooks.factory('auth', ['$cookies', '$rootScope', '$http','$q', '$timeout',  f
 
   return {
     get: function() {
-      return cookies['alsBooks.user.abilities'];
+      if (!cookies['alsbooks.user']) {
+        return []
+      }
+      return JSON.parse(cookies['alsbooks.user'].substr(2)).abilities
+    }
+    , hasAbility: function(ability) {
+      var abilities = this.get();
+      if (abilities.length == 0) {
+        return false;
+      }
+      console.log(_.pluck(abilities, "title"))
+      return _.chain(abilities)
+           .pluck("title")
+           .contains(ability)
+           .value()
+
     }
     ,isLoggedIn: function() {
       var deferred = q.defer();

@@ -4,12 +4,6 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies, $r
   // ALL sensitive data must be authenticated with the server
   $scope.loggedIn = auth.isLoggedIn();
 
-  // Sets the active tab in the UI
-  // $scope.getActiveTab = function(navDetails, navPoint) {
-  //   var re = new RegExp("\/" + navDetails.navItem);
-  //   $scope.tabs[navPoint].navClass = $location.path().match(re) !== null ? "active" : false;
-  // };
-
   // TODO: Retrieve from server-side API
   var generateTabs = function() {
     var tabs = {
@@ -23,7 +17,7 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies, $r
       },
       member: {
         navItem: "members",
-        visible: $scope.loggedIn,
+        visible: $scope.loggedIn && auth.hasAbility('canViewMembers'),
       },
       publications: {
         navItem: "publications",
@@ -31,11 +25,11 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies, $r
       },
       webSearch: {
         navItem: "webSearch",
-        visible: $scope.loggedIn,
+        visible: $scope.loggedIn && auth.hasAbility('canWebSearch'),
       },
       signup: {
         navItem: "signup",
-        visible: $scope.loggedIn,
+        visible: $scope.loggedIn && auth.hasAbility('canManageUsers'),
       },
       contact: {
         navItem: "contact",
@@ -71,6 +65,7 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies, $r
 
   $scope.$on('logout', function() {
     $scope.tabs = generateTabs()
+    $location.url('/publications');
   });
 
   $scope.tabs = generateTabs()
