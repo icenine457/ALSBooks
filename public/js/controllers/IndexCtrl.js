@@ -27,8 +27,8 @@ alsbooks.controller('IndexCtrl', function($scope, $http, $location, $cookies, $r
         navItem: "webSearch",
         visible: $scope.loggedIn && auth.hasAbility('canWebSearch'),
       },
-      signup: {
-        navItem: "signup",
+      users: {
+        navItem: "users",
         visible: $scope.loggedIn && auth.hasAbility('canManageUsers'),
       },
       contact: {

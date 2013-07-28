@@ -1,4 +1,4 @@
-function SignupCtrl($scope, $http, $location) {
+function UsersCtrl($scope, $http, $location) {
   $scope.$emit('changeTab');
   $scope.errors = {}
   $scope.signup = function() {

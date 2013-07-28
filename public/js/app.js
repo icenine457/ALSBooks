@@ -22,9 +22,9 @@ var alsbooks = angular.module('alsbooks', modules).
         templateUrl: 'partials/login',
         controller: LoginCtrl
       }).
-      when('/signup', {
-        templateUrl: 'partials/signup',
-        controller: SignupCtrl
+      when('/users', {
+        templateUrl: 'partials/users',
+        controller: UsersCtrl
       }).
       when('/publications/new/:memberId', {
         templateUrl: 'partials/editPublication',

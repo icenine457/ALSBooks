@@ -19,8 +19,8 @@ block body
           li(ng-class='tabs.login.navClass', ng-visible="!loggedIn")
             a(href="/login", eat-click, ng-click="refreshTab") Login
 
-          li(ng-class='tabs.signup.navClass', ng-visible="tabs.signup.visible")
-            a(href="/signup", eat-click, ng-click="refreshTab") Create Account
+          li(ng-class='tabs.users.navClass', ng-visible="tabs.users.visible")
+            a(href="/users", eat-click, ng-click="refreshTab") Users
 
           li(ng-visible="tabs.logout.visible")
             a(href="javascript:", eat-click, ng-click="logout()") Log out
@@ -49,7 +49,7 @@ block body
   script(src='js/controllers/PublicationsCtrl.js')
   script(src='js/controllers/SearchCtrl.js')
   script(src='js/controllers/SearchProviders/SearchGoogle.js')
-  script(src='js/controllers/SignupCtrl.js')
+  script(src='js/controllers/UsersCtrl.js')
   script(src='js/controllers/)
   script(src='js/filters.js')
   script(src='js/directives.js')
