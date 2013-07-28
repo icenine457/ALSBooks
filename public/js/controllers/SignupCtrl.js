@@ -6,12 +6,11 @@ function SignupCtrl($scope, $http, $location) {
       success(function(data) {
         if (data.errors) {
           $scope.errors = data.errors;
-          console.log($scope.errors);
+          console.error($scope.errors);
           return;
         }
         if (data.success) {
           $scope.errors = {};
-          console.log(data.success)
           $location.path("/signup");
         }
       })

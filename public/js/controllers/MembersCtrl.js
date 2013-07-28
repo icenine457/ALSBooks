@@ -41,7 +41,6 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.$emit('changeTab');
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
-      console.log(data);
       $scope.member = data.member;
       $scope.tabs = {
         member: 'active',
@@ -81,13 +80,12 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   };
 
   // TODO: Some form of notification would be nice
+  // Convert to service, use toastr
   $scope.archive = function() {
     $http.delete('/api/members/archive/' + $scope.member._id)
       .success(function(data) {
-        console.log("DELETED");
       })
       .error(function(err) {
-        console.error("WTF:" + JSON.stringify(err));
       });
 
   };

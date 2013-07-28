@@ -48,7 +48,6 @@ function SearchCtrl($scope, $http, $location, $routeParams) {
         // TODO: Investigate moment.js for this
         var lastSearched = member.googleSearched;
         var isDate = (typeof(lastSearched) === "string" )
-        //if (member.lastName == 'Ludlum') console.log(typeof(lastSearched));
         return isDate;
       },
     }

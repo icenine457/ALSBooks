@@ -37,18 +37,17 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth
       });
 
   };
-  $scope.canEditPubs = auth.hasAbility('canEditPublications');
-  $scope.canEditMembers = auth.hasAbility('canEditMembers');
 
-  $scope.$on('login', function() {
-    $scope.canEditPubs = auth.hasAbility('canEditPublications');
-    $scope.canEditMembers = auth.hasAbility('canEditMembers');
+  auth.hasAbility('canEditPublications').then(function(hasAbility) {
+    $scope.canEditPubs = hasAbility;
+  });
+  auth.hasAbility('canEditMembers').then(function(hasAbility) {
+    $scope.canEditMembers = hasAbility;
   });
 
   $scope.$on('logout', function() {
-    console.log("HI");
-    $scope.canEditPubs = auth.hasAbility('canEditPublications');
-    $scope.canEditMembers = auth.hasAbility('canEditMembers');
+    $scope.canEditPubs = false;
+    $scope.canEditMembers = false; 
   });
 
   if (!$scope.publications) {

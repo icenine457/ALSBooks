@@ -11,22 +11,42 @@ alsbooks.value('version', '0.1');
 alsbooks.factory('auth', ['$cookies', '$rootScope', '$http','$q', '$timeout',  function(cookies, rootScope, http, q, timeout) {
 
   return {
-    get: function() {
-      if (!cookies['alsbooks.user']) {
-        return []
-      }
-      return JSON.parse(cookies['alsbooks.user'].substr(2)).abilities
+    getAbilities: function() {
+      var deferred = q.defer();
+      var self = this;
+      timeout(function() {
+        if (cookies['alsbooks.user']) {
+          deferred.resolve(JSON.parse(cookies['alsbooks.user'].substr(2)).abilities)
+        }
+        else {
+          var promise = self.verify();
+          promise.then(function(verified) {
+            if (!verified) {
+              deferred.reject([]);
+            }
+            deferred.resolve(JSON.parse(cookies['alsbooks.user'].substr(2)).abilities)
+          });
+
+        }
+      }, 100);
+      return deferred.promise;
     }
     , hasAbility: function(ability) {
-      var abilities = this.get();
-      if (abilities.length == 0) {
-        return false;
-      }
-      console.log(_.pluck(abilities, "title"))
-      return _.chain(abilities)
-           .pluck("title")
-           .contains(ability)
-           .value()
+      var deferred = q.defer();
+      var promise = this.getAbilities();
+      timeout(function() {
+        promise.then(function(abilities) {
+          if (abilities.length == 0) {
+            deferred.reject(false);
+          }
+          deferred.resolve(_.chain(abilities)
+              .pluck("title")
+              .contains(ability)
+              .value());
+          })
+        }
+      , 100);
+      return deferred.promise;
 
     }
     ,isLoggedIn: function() {
