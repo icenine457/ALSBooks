@@ -115,7 +115,7 @@ alsbooks.factory('userService', ['$http','$q', function(http, q) {
   return {
     update: function(user) {
       var deferred = q.defer();
-      http.post('/api/users/update', user)
+      http.post('/api/manage/users/update', user)
         .success(function(data) {
           if (data.success) {
             toastr.success("User updated!")
@@ -124,13 +124,14 @@ alsbooks.factory('userService', ['$http','$q', function(http, q) {
         })
         .error(function(data) {
           toastr.error("Something awful happened!")
+          deferred.reject(false)
         })
       return deferred.promise;
     }
 
     ,getUsers: function() {
       var deferred = q.defer();
-      http.get('/api/users/list')
+      http.get('/api/manage/users/list')
         .success(function(data) {
           deferred.resolve(data);
         })
@@ -141,13 +142,33 @@ alsbooks.factory('userService', ['$http','$q', function(http, q) {
     }
     ,signup: function(user) {
       var deferred = q.defer();
-      http.post('/api/users/create', user)
+      http.post('/api/manage/users/create', user)
         .success(function(data) {
           deferred.resolve(data);
         })
         .error(function(data) {
           deferred.reject(data);
         })
+      return deferred.promise;
+    }
+  }
+}]);
+
+alsbooks.factory('memberService', ['$http','$q', function(http, q) {
+
+  // TODO: Send back propery 50* HTTP codes
+  return {
+    archive: function(memberId) {
+      var deferred = q.defer();
+      http.delete('/api/archive/publications/' + memberId)
+        .success(function(data) {
+          toastr.success("Successfully archived member publications")
+          deferred.resolve(data)
+        })
+        .error(function(err) {
+          toastr.error("Something awful happened!")
+          deferred.reject(data)
+        });
       return deferred.promise;
     }
   }

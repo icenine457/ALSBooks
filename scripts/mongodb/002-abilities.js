@@ -32,7 +32,7 @@ var abilities = [
   title: 'canManageUsers',
   label: "Manage Users",
   permissions: {
-    'api/manageUsers': [ 'read', 'write' ]
+    'api/manage/users': [ 'read', 'write' ]
   }
 },
 ]

@@ -32,15 +32,16 @@ module.exports = function(app, passport) {
   // Web Search
   app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
 
-  // Users
-  app.get('/api/users/list', users.list)
-  app.get('/api/users/loginFailed', users.loginFailed);
-  app.post('/api/users/update', users.update);
+  // Manage Users
+  app.get('/api/manage/users/list', ability, users.list)
+  app.post('/api/manage/users/update', ability, users.update);
+  app.post('/api/manage/users/create', ability, users.create)
 
+  // Users
+  app.get('/api/users/loginFailed', users.loginFailed);
   app.post('/api/users/login', passport.authenticate('local', {failureRedirect: '/api/users/loginFailed'}), users.session)
   app.post('/api/users/logout', users.logout)
   app.post('/api/users/verify', users.verify)
-  app.post('/api/users/create', users.create)
 
   // Archive
   app.delete('/api/archive/publications/:memberId', members.archive);

@@ -1,4 +1,10 @@
-function UsersCtrl($scope, $http, $location, userService) {
+function UsersCtrl($scope, $http, $location, userService, auth) {
+
+  auth.hasAbility("canManageUsers").then(function(hasAbility) {
+    if (!hasAbility) {
+      $location.path('/publications');
+    }
+  });
   $scope.$emit('changeTab');
   $scope.errors = {}
   $scope.tabs = {

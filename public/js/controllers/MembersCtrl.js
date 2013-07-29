@@ -37,7 +37,7 @@ function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
 };
 
-function EditMemberCtrl($scope, $http, $location, $routeParams, auth) {
+function EditMemberCtrl($scope, $http, $location, $routeParams, auth, memberService) {
   $scope.$emit('changeTab');
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
@@ -87,11 +87,13 @@ function EditMemberCtrl($scope, $http, $location, $routeParams, auth) {
   // TODO: Some form of notification would be nice
   // Convert to service, use toastr
   $scope.archive = function() {
-    $http.delete('/api/archive/publications/' + $scope.member._id)
-      .success(function(data) {
-      })
-      .error(function(err) {
-      });
+    var error = function(err) {
+      // TODO: Unhandled
+    }
+    memberService.archive($scope.member._id).then(function(data) {
+      $scope.member = data.member
+    }, error);
+
 
   };
 

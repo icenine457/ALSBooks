@@ -43,7 +43,7 @@ div
         span(style="display: inline-block;")
           button(name="addPublication", ng-click="addPublication()").offset2.btn.btn-small.btn-primary New
         span(style="display: inline-block;")
-          button(ng-visible='canArchiveMemberPubs', name="archive", ng-click="archive()").offset2.btn.btn-small.btn-danger Archive
+          button(ng-visible='canArchiveMemberPubs && member.publications.length > 0', name="archive", ng-click="archive()").offset2.btn.btn-small.btn-danger Archive
       div(ng-visible="member.publications.length == 0") {{member.fullName}} has no publications.
       div(ng-visible="member.publications.length > 0")
         table(class="table table-hover")
