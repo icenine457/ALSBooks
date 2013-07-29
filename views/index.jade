@@ -22,7 +22,7 @@ block body
           li(ng-class='tabs.users.navClass', ng-visible="tabs.users.visible")
             a(href="/users", eat-click, ng-click="refreshTab") Users
 
-          li(ng-visible="tabs.logout.visible")
+          li(ng-visible="loggedIn")
             a(href="javascript:", eat-click, ng-click="logout()") Log out
 
           li(ng-class='tabs.contact.navClass', ng-visible="tabs.contact.visible")
