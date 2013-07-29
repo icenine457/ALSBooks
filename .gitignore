@@ -1,4 +1,5 @@
 data/
 backup/
+*.swp
 npm-debug.log
 scripts/mongodb/004-rt6-add-abilities.js
