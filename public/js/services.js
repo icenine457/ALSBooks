@@ -107,3 +107,22 @@ alsbooks.factory('auth', ['$cookies', '$rootScope', '$http','$q', '$timeout',  f
     }
   }
 }]);
+
+// TODO: Separate file
+alsbooks.factory('userService', ['$http','$q', function(http, q) {
+
+  // TODO: Send back propery 50* HTTP codes
+  return {
+    signup: function(user) {
+      var deferred = q.defer();
+      http.post('/api/users/create', user)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(data) {
+          deferred.reject(data);
+        })
+      return deferred.promise;
+    }
+  }
+}]);
