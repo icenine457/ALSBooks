@@ -37,7 +37,7 @@ function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
 };
 
-function EditMemberCtrl($scope, $http, $location, $routeParams) {
+function EditMemberCtrl($scope, $http, $location, $routeParams, auth) {
   $scope.$emit('changeTab');
   $http.get('/api/members/edit/' + $routeParams.id).
     success(function(data) {
@@ -51,6 +51,11 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   $scope.importClicked = false;
   $scope.isEditing = false;
   $scope.memberBtnText = "Edit";
+  $scope.canArchiveMemberPubs = false;
+
+  auth.hasAbility('canArchiveMemberPublications').then(function(hasAbility) {
+    $scope.canArchiveMemberPubs = hasAbility;
+  });
 
   $scope.pubStatus = function(pub) {
     return pub.verified ? "success" : "warning"
@@ -82,7 +87,7 @@ function EditMemberCtrl($scope, $http, $location, $routeParams) {
   // TODO: Some form of notification would be nice
   // Convert to service, use toastr
   $scope.archive = function() {
-    $http.delete('/api/members/archive/' + $scope.member._id)
+    $http.delete('/api/archive/publications/' + $scope.member._id)
       .success(function(data) {
       })
       .error(function(err) {

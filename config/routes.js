@@ -17,7 +17,6 @@ module.exports = function(app, passport) {
   app.post('/api/members/import', ability, members.import);
   app.get('/api/members/edit/:memberId', ability, members.edit);
   app.put('/api/members/save/:memberId', ability, members.save);
-  app.delete('/api/members/archive/:memberId', members.archive);
 
   // Publications
   var publications = require('../lib/controllers/publications');
@@ -42,6 +41,9 @@ module.exports = function(app, passport) {
   app.post('/api/users/logout', users.logout)
   app.post('/api/users/verify', users.verify)
   app.post('/api/users/create', users.create)
+
+  // Archive
+  app.delete('/api/archive/publications/:memberId', members.archive);
 
   // Parameters
   app.param('memberId', members.member);
