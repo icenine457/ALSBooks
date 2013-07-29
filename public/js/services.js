@@ -113,7 +113,33 @@ alsbooks.factory('userService', ['$http','$q', function(http, q) {
 
   // TODO: Send back propery 50* HTTP codes
   return {
-    signup: function(user) {
+    update: function(user) {
+      var deferred = q.defer();
+      http.post('/api/users/update', user)
+        .success(function(data) {
+          if (data.success) {
+            toastr.success("User updated!")
+            deferred.resolve(true)
+          }
+        })
+        .error(function(data) {
+          toastr.error("Something awful happened!")
+        })
+      return deferred.promise;
+    }
+
+    ,getUsers: function() {
+      var deferred = q.defer();
+      http.get('/api/users/list')
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(data) {
+          deferred.reject(data);
+        })
+     return deferred.promise;
+    }
+    ,signup: function(user) {
       var deferred = q.defer();
       http.post('/api/users/create', user)
         .success(function(data) {

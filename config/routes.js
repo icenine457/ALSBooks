@@ -34,10 +34,13 @@ module.exports = function(app, passport) {
   app.get('/api/search/google/:memberId/:page/:maxResults', webSearch.google.search);
 
   // Users
+  app.get('/api/users/list', users.list)
+  app.get('/api/users/loginFailed', users.loginFailed);
+  app.post('/api/users/update', users.update);
+
   app.post('/api/users/login', passport.authenticate('local', {failureRedirect: '/api/users/loginFailed'}), users.session)
   app.post('/api/users/logout', users.logout)
   app.post('/api/users/verify', users.verify)
-  app.get('/api/users/loginFailed', users.loginFailed);
   app.post('/api/users/create', users.create)
 
   // Parameters

@@ -1,4 +1,4 @@
-div
+div(ng-visible='!userSelected')
   ul.nav.nav-tabs
     li(ng-class='tabs.createUser')
       a(href="javascript:", eat-click, ng-click="toggleTab('createUser')") Create User
@@ -32,6 +32,49 @@ div
 
     .form-actions
       button.btn(type='button', ng-click='signup()') Create Account
-      &nbsp;
-      | or&nbsp;
-      a.show-login(href="/login") login
+  div(ng-visible="users.length > 0 && tabs.manageUsers == 'active'")
+    table.table.table-hover
+      thead
+        tr
+          th User Name
+          th Name
+          th E-mail
+      tr(ng-repeat='user in users')
+        td 
+          a(href="javascript:", eat-click, ng-click="setUser(user)") {{ user.username }}
+        td {{ user.name }}
+        td {{ user.email }}
+
+  // TODO: Move to a separate file
+form.form-horizontal(ng-visible="userSelected")
+  h3 Editing User {{ selectedUser.username }}
+
+  .control-group(ng-class="{error: manageErrors.username != null}")
+    label.control-label(for='username') Username
+    .controls
+      input#updateUsername(type='text', name="updateUsername", placeholder='Username', ng-model='selectedUser.username')
+      div(ng-visible='manageErrors.username != null', ng-model='manageErrors.username.type') {{ manageErrors.username.type }}
+
+  .control-group(ng-class="{error: manageErrors.email != null}")
+    label.control-label(for='email') Email
+    .controls
+      input#updateEmail(type='text', name="updateEmail", ng-model="selectedUser.email", placeholder='Email')
+      div(ng-visible='manageErrors.email != null', ng-model='manageErrors.email.type') {{ manageErrors.email.type }}
+
+
+  .control-group(ng-class="{error: manageErrors.name != null}")
+    label.control-label(for='name') Full name
+    .controls
+      input#updateName(type='text', name="updateName", placeholder='Full name', ng-model='selectedUser.name')
+      div(ng-visible='manageErrors.name != null', ng-model='manageErrors.name.type') {{ manageErrors.name.type }}
+
+  .control-group()
+    label.control-label(for='abilities') Abilities
+    .controls
+      select#updateAbilities(name='abilities', multiple='true', ng-model="selectedUser.abilities", ng-options="a as a.label for a in abilities track by a._id")
+
+
+  .form-actions
+    button.btn.btn-success(type='button', ng-click='updateUser()') Update User
+    &nbsp;
+    button.btn(href="javascript:", eat-click, ng-click="cancelEdit()") Cancel
