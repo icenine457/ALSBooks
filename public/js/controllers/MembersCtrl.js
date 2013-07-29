@@ -1,4 +1,4 @@
-function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
+function MembersCtrl($scope, $http, $location, $cookies, $routeParams, auth) {
 
   $scope.$emit('changeTab');
   $scope.setOrderBy(!$routeParams.orderBy ? 'fullName' : $routeParams.orderBy);
@@ -27,9 +27,20 @@ function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
         $scope.memberHeader = "There " + ( $scope.totalEntities == 1 ? "is " : "are ") + ($scope.totalEntities > 0 ? $scope.totalEntities : "no") + " member" + ($scope.totalEntities != 1 ? "s." : ".");
 
+      })
+      .error(function(data) {
+        $location.path("/publications")
       });
 
   };
+
+  auth.hasAbility('canEditMembers').then(function(hasAbility) {
+    $scope.canEditMembers = hasAbility;
+  });
+
+  $scope.$on('logout', function() {
+    $scope.canEditMembers = false
+  });
 
   if (!$scope.members) {
     $scope.list();
@@ -39,14 +50,17 @@ function MembersCtrl($scope, $http, $location, $cookies, $routeParams) {
 
 function EditMemberCtrl($scope, $http, $location, $routeParams, auth, memberService) {
   $scope.$emit('changeTab');
-  $http.get('/api/members/edit/' + $routeParams.id).
-    success(function(data) {
+  $http.get('/api/members/edit/' + $routeParams.id)
+    .success(function(data) {
       $scope.member = data.member;
       $scope.tabs = {
         member: 'active',
         publication: ''
       }
-    });
+    })
+    .error(function(data) {
+      $location.path("/publications")
+    })
 
   $scope.importClicked = false;
   $scope.isEditing = false;
@@ -81,7 +95,10 @@ function EditMemberCtrl($scope, $http, $location, $routeParams, auth, memberServ
     $http.put('/api/members/save/' + $routeParams.id, $scope.member)
       .success(function(data) {
         $location.path('/members');
-      });
+      })
+      .error(function(data) {
+        $location.path("/publications")
+      })
   };
 
   // TODO: Some form of notification would be nice

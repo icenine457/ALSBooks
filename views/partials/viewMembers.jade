@@ -3,7 +3,7 @@ div(ng-controller="MembersCtrl")
     div.span4
       h3 Members
         span(style="display: inline-block;")
-          a(class="btn btn-small btn-primary", style="margin-left:15px", href="/importMembers").offset1 Import
+          a(ng-visible="canEditMembers", class="btn btn-small btn-primary", style="margin-left:15px", href="/importMembers").offset1 Import
       p {{ memberHeader }}
     div.span3.offset5
       form(ng-submit="search(searchQuery)").form-search
@@ -26,7 +26,8 @@ div(ng-controller="MembersCtrl")
           th Publications
       tr(ng-repeat='member in members')
         td
-          a(href='members/{{member._id}}') {{member.fullName}}
+          a(ng-visible='canEditMembers', href='members/{{member._id}}') {{member.fullName}}
+          span(ng-visible='!canEditMembers') {{member.fullName}}
         td {{member.inductionYear}}
         td
           span(ng-visible="member.emailAddresses.length == 0")
