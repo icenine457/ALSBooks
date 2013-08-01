@@ -24,7 +24,7 @@ form(ng-submit="send()")
       .control-group(ng-class="{error: errors.message != null}")
         label.control-label(for='message') Message
         .controls
-          textarea#message(name="message", ng-model="messageText", placeholder='Message')
+          textarea#message.span7(name="message", ng-model="messageText", placeholder='Message', rows='8')
           div(ng-visible='errors.message != null', ng-model='errors.message') {{ errors.message }}
   div.row-fluid
     button.btn.btn-primary(type='submit') Send
