@@ -18,6 +18,7 @@ function ContactCtrl($scope, $http, $location, $cookies, $routeParams) {
     var url = "/api/contact"
     $http.post(url, mail)
       .success(function(data) {
+        toastr.success("Message sent!")
         window.history.back()
       })
       .error(function(err) {
