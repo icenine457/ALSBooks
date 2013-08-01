@@ -48,6 +48,7 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth
   $scope.$on('logout', function() {
     $scope.canEditPubs = false;
     $scope.canEditMembers = false; 
+    $scope.list()
   });
 
   if (!$scope.publications) {
