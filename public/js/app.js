@@ -9,6 +9,7 @@ var modules = [
   'ngCookies',
   'ngRoute',
   'ui.bootstrap',
+  'ui.tinymce',
 ]
 var alsbooks = angular.module('alsbooks', modules).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {

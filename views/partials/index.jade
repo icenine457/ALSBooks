@@ -2,8 +2,17 @@ div.row-fluid
   h3 Welcome to ALS Books!
   div.row-fluid
     span This site serves to document the various published works of ALS members. Use it to explore literature, film, and television productions of various members of the Adelphic Literary Society.
-  h4 News
-    button(ng-visible="canManageArticles", ng-click: "newArticle", type="button", style="margin-left: 15px" ).btn.btn-small.btn-primary New Article
-  div(ng-repeat='article in articles')
-    h5 {{ article.header }}
-    div {{ article.body }}
+  div(ng-visible="!isEditing")
+    h4 News
+      button(ng-visible="canManageArticles", ng-click: "newArticle", type="button", style="margin-left: 15px" ).btn.btn-small.btn-primary New Article
+    div(ng-repeat='article in articles')
+      h5 {{ article.header }}
+      div {{ article.body }}
+
+  div(ng-visible="isEditing")
+    label(for="headerTxt") Header
+    input(id="headerTxt", name="headerTxt", type="text")
+    label(for="bodyTxt") Body
+    textarea(ui-tinymce, ng-model='articleBody', id="bodyTxt", name="bodyTxt")
+    button(type="button").btn.btn-success Submit
+    button(type="button").btn Cancel

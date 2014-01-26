@@ -8,4 +8,13 @@ function LandingCtrl($scope, $http, $location, articleService, auth) {
   articleService.list().then(function(articleViewModel) {
     $scope.articles = articleViewModel.articles;
   });
+    
+  $scope.article = {
+    article: "",
+    header: "",
+  };
+
+  $scope.newArticle = function() {
+    $scope.isEditing = true;
+  };
 }

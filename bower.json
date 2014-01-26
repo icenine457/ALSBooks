@@ -1,0 +1,4 @@
+dependencies: {
+  "angularjs": "latest"
+  "angular-ui-tinymce": "latest"
+}
