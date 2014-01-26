@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
   , members = require('../lib/controllers/members')
   , webSearch = require('../lib/controllers/webSearch')
   , users = require('../lib/controllers/users')
+  , index = require('../lib/controllers/index')
 
 module.exports = function(app, passport) {
 
@@ -45,6 +46,11 @@ module.exports = function(app, passport) {
 
   // Archive
   app.delete('/api/archive/publications/:memberId', members.archive);
+
+  // Articles
+  app.get('/api/articles/list', index.list);
+  app.put('/api/articles/new', ability, index.create);
+  app.post('/api/articles/edit', ability, index.save);
 
   // Parameters
   app.param('memberId', members.member);

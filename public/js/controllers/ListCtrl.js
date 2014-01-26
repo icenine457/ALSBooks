@@ -6,6 +6,11 @@ function ListCtrl($scope, $http, $location, $cookies, $routeParams, auth) {
   $scope.perPage = $routeParams.perPage === undefined || isNaN($routeParams.perPage) ? 10 : $routeParams.perPage
   $scope.orderByDir = $routeParams.orderByDir === undefined || isNaN($routeParams.orderByDir) ? 1 : $routeParams.orderByDir 
   $scope.orderByTable = {}
+  $scope.isLoading = false
+  
+  $scope.setIsLoading = function(isLoading) {
+    $scope.isLoading = isLoading;
+  }
 
   $scope.updateTerm = function() {
     _.each($scope.searchTerms, function(term) {

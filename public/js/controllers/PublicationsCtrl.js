@@ -1,5 +1,6 @@
 function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth) {
 
+  $scope.setIsLoading(true);
   $scope.$emit('changeTab');
   $scope.setOrderBy(!$routeParams.orderBy ? 'pubTitle' : $routeParams.orderBy);
   $scope.orderByTable[$scope.orderBy] = $scope.orderByDir;
@@ -14,6 +15,7 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth
 
 
   $scope.list = function() {
+    $scope.setIsLoading(true);
     var getUrl = '/api/publications/list/' + $scope.page + '/' + $scope.perPage + '/' + $scope.orderBy + '/' + $scope.orderByDir;
 
     if ($routeParams.searchBy && $routeParams.q ) {
@@ -33,6 +35,7 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth
         };
 
         $scope.publicationsHeader = "There " + ( $scope.totalEntities == 1 ? "is " : "are ") + ($scope.totalEntities > 0 ? $scope.totalEntities : "no") + " publication" + ($scope.totalEntities != 1 ? "s." : ".");
+        $scope.setIsLoading(false)
 
       });
 
@@ -54,6 +57,7 @@ function PublicationsCtrl($scope, $http, $location, $cookies, $routeParams, auth
   if (!$scope.publications) {
     $scope.list();
   }
+  $scope.setIsLoading(true);
 
 };
 

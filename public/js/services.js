@@ -164,3 +164,44 @@ alsbooks.factory('memberService', ['$http','$q', function(http, q) {
     }
   }
 }]);
+
+alsbooks.factory('articleService', ['$http','$q', function(http, q) {
+
+  // TODO: Send back propery 50* HTTP codes
+  return {
+    list: function(memberId) {
+      var deferred = q.defer();
+      http.get('/api/articles/list')
+        .success(function(data) {
+          deferred.resolve(data)
+        })
+        .error(function(err) {
+          deferred.reject(data)
+        });
+      return deferred.promise;
+    },
+    post: function(article) {
+      var deferred = q.defer();
+      http.put('/api/articles/post', article)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(data) {
+          deferred.reject(data);
+        })
+      return deferred.promise;
+    },
+    put: function(article) {
+      var deferred = q.defer();
+      http.put('/api/articles/add', article)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(data) {
+          deferred.reject(data);
+        })
+      return deferred.promise;
+
+    }
+  }
+}]);

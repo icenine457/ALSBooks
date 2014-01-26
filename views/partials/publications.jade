@@ -1,8 +1,10 @@
 div(ng-controller="PublicationsCtrl")
-  div.row-fluid
+  div(ng-visible='isLoading')
+    img(src="/img/loading.gif")
+  div(ng-visible="!isLoading").row-fluid
     div.span4
       h3 Publications
-      p {{ publicationsHeader }}
+      p() {{ publicationsHeader }}
     div.span3.offset5
       form(ng-submit="search(searchQuery)").form-search
         input(type="text",ng-model="searchQuery").input-medium.search-query
@@ -26,16 +28,17 @@ div(ng-controller="PublicationsCtrl")
           th
             a(href="javascript:", ng-click="sortBy('pubMedium.mediaLabel')") Medium
           th Notes
-      tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
-        td
-          a(ng-visible="canEditPubs", href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
-          a(ng-visible="!canEditPubs", href='/publications/view/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
-        td
-          a(ng-visible="canEditMembers",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
-          span(ng-visible="!canEditMembers") {{publication.member.fullName}}
-        td {{publication.pubYear}}
-        td {{publication.pubMedium.mediaLabel}}
-        td {{publication.pubNotes}}
+      tbody
+        tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
+          td
+            a(ng-visible="canEditPubs", href='/publications/edit/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+            a(ng-visible="!canEditPubs", href='/publications/view/{{publication.member._id}}/{{publication._id}}') {{publication.pubTitle}}
+          td
+            a(ng-visible="canEditMembers",href='/members/{{publication.member._id}}') {{publication.member.fullName}}
+            span(ng-visible="!canEditMembers") {{publication.member.fullName}}
+          td {{publication.pubYear}}
+          td {{publication.pubMedium.mediaLabel}}
+          td {{publication.pubNotes}}
     div.pagination
       ul
         li
@@ -44,9 +47,15 @@ div(ng-controller="PublicationsCtrl")
           a(href="javascript:",ng-click="navPage(thisPage)") {{ thisPage + 1 }}
         li
          a(href="javascript:", ng-click="nextPage()") Next
-    h5 Legend
-      div.row-fluid
-        em.label.label-warning Work unverified
-      div.row-fluid
-        em.label.label-success Work verified
+    table.table
+      thead
+        tr
+          th Legend
+      tbody
+        tr.success
+          td
+            em Work verified
+        tr.warning
+          td
+            em Work unverified
 //  vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : 
