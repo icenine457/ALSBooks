@@ -27,6 +27,8 @@ div(ng-controller="PublicationsCtrl")
             a(href="javascript:", ng-click="sortBy('pubYear')") Year Published
           th
             a(href="javascript:", ng-click="sortBy('pubMedium.mediaLabel')") Medium
+          th
+            a(href="javascript:") Induction Year
           th Notes
       tbody
         tr(ng-repeat='publication in publications', ng-class="pubStatus(publication)")
@@ -38,6 +40,7 @@ div(ng-controller="PublicationsCtrl")
             span(ng-visible="!canEditMembers") {{publication.member.fullName}}
           td {{publication.pubYear}}
           td {{publication.pubMedium.mediaLabel}}
+          td {{publication.member.inductionYear}}
           td {{publication.pubNotes}}
     div.pagination
       ul
